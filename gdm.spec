@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.18.0
-Release: %mkrel 3
+Version: 2.18.1
+Release: %mkrel 1
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -55,12 +55,12 @@ BuildRequires: librsvg-devel
 BuildRequires: pam-devel
 BuildRequires: usermode
 BuildRequires: scrollkeeper
-BuildRequires: gnome-doc-utils libxslt-proc
-BuildRequires: automake1.9
+BuildRequires: gnome-doc-utils
+BuildRequires: automake1.9 intltool
 BuildRequires: desktop-file-utils
 #gw for running intltool scripts
 BuildRequires: perl-XML-Parser
-BuildRequires: intltool
+
 
 %description
 Gdm (the GNOME Display Manager) is a highly configurable
@@ -314,5 +314,3 @@ fi
 %{_bindir}/gdmXnest
 %{_datadir}/applications/gdmflexiserver-xnest.desktop
 %{_menudir}/gdm-Xnest
-
-
