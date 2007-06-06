@@ -1,6 +1,6 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.18.2
+Version: 2.19.2
 Release: %mkrel 1
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
@@ -11,20 +11,16 @@ Source3: gdm_32.png
 Source4: gdm_16.png
 
 # (fc) 2.2.2.1-1mdk change default configuration
-Patch0: gdm-2.14.1-default-conf.patch
+Patch0: gdm-2.19.0-defaultconf.patch
 # (fc) 2.4.0.11-3mdk use xvt instead of xterm
-Patch1: gdm-2.8.0.0-xvt.patch
-# (fc) 2.4.1.3-4mdk greeter really set background (not only color)
-Patch2: gdm-2.17.0-greeterbackground.patch 
+Patch1: gdm-2.19.1-xvt.patch
 # (fc) 2.6.0.6-3mdk use pam_timestamp for gdmsetup (Fedora)
 # and  don't use deprecated pam_stack (blino)
-Patch4: gdm-2.13.0.7-pam.patch
+Patch4: gdm-2.19.0-pam.patch
 # (fc) 2.6.0.6-3mdk clean up xses if session was sucessfully completed (Fedora)
-Patch5: gdm-2.6.0.5-cleanup-xses.patch
+Patch5: gdm-2.19.0-cleanup-xses.patch
 # (fc) 2.18.0-2mdv force TMPDIR to /tmp, fix a11y startup inside gdm (Mdv bug #23215)
-Patch6: gdm-2.18.0-tmpdir.patch
-# gw hide gdmphotosetup under gnome as we have about-me in the settings menu
-Patch7: gdm-2.18.0-hide-photosetup.patch
+Patch6: gdm-2.19.1-tmpdir.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 Provides: dm
@@ -57,7 +53,6 @@ BuildRequires: usermode
 BuildRequires: scrollkeeper
 BuildRequires: gnome-doc-utils
 BuildRequires: automake1.9 intltool
-BuildRequires: desktop-file-utils
 #gw for running intltool scripts
 BuildRequires: perl-XML-Parser
 
@@ -88,11 +83,9 @@ cp config/Init.in config/Default.in
 
 %patch0 -p1 -b .defaultconf
 %patch1 -p1 -b .xvt
-%patch2 -p1 -b .greeterbackground
 %patch4 -p1 -b .pam
 %patch5 -p1 -b .cleanup_xses
 %patch6 -p1 -b .tmpdir
-%patch7 -p1
 
 cp config/locale.alias config/locales.alias.noutf8
 sed -i -e 's/..\(_..\)*\.UTF-8\(@[^,]\+\)*,//g' config/locale.alias
@@ -122,51 +115,6 @@ mkdir -p  $RPM_BUILD_ROOT%{_liconsdir} $RPM_BUILD_ROOT%{_miconsdir}
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_liconsdir}/gdm.png
 cp %{SOURCE3} $RPM_BUILD_ROOT%{_iconsdir}/gdm.png
 cp %{SOURCE4} $RPM_BUILD_ROOT%{_miconsdir}/gdm.png
-
-# add Mandrake theme
-mkdir -p $RPM_BUILD_ROOT%{_menudir}
-cat << EOF > $RPM_BUILD_ROOT%{_menudir}/gdm
-?package(%{name}): \
-command="%{_bindir}/gdmsetup" \
-icon="gdm.png" \
-needs="X11" \
-section="System/Configuration/Boot and Init" \
-title="GDM Configurator" \
-longtitle="A graphical application for configuring the GNOME Display Manager (GDM)" \
-startup_notify="true" xdg="true"
-?package(%{name}): \
-command="%{_bindir}/gdmphotosetup" \
-icon="gdm.png" \
-needs="X11" \
-section="System/Configuration/Boot and Init" \
-title="GDM Photo Setup" \
-longtitle="Setup the picture that will show in the GDM (login manager) face browser" \
-startup_notify="true" xdg="true"
-?package(%{name}): \
-command="%{_bindir}/gdmflexiserver" \
-icon="gdm.png" \
-needs="X11" \
-section="System/Configuration/Boot and Init" \
-title="New login with GDM" \
-longtitle="Log in as another user without logging out" \
-startup_notify="true" xdg="true"
-EOF
-
-cat << EOF > $RPM_BUILD_ROOT%{_menudir}/gdm-Xnest
-?package(%{name}-Xnest): \
-command="%{_bindir}/gdmflexiserver --xnest" \
-icon="gdm.png" \
-needs="X11" \
-section="System/Configuration/Boot and Init" \
-title="New login in a nested window " \
-longtitle="New login in a nested window" \
-startup_notify="true" xdg="true"
-EOF
-desktop-file-install --vendor="" \
-  --remove-category="AdvancedSettings" \
-  --remove-category="Application" \
-  --add-category="X-MandrivaLinux-System-Configuration-BootandInit" \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
 
 %{find_lang} %{name}-2.4 --with-gnome --all-name
 for omf in %buildroot%_datadir/omf/%name/%name-??*.omf;do 
@@ -246,16 +194,9 @@ fi
 %{make_session}
 %_postun_userdel gdm
 %_postun_groupdel xgrp gdm
-
 %{clean_menus}
 /sbin/ldconfig
 %clean_scrollkeeper
-
-%post Xnest
-%{update_menus}
-
-%postun Xnest
-%{clean_menus}
 
 %files -f %{name}-2.4.lang
 %defattr(-, root, root)
@@ -290,12 +231,8 @@ fi
 %config(noreplace) %{_sysconfdir}/X11/gdm/Init
 %config(noreplace) %{_sysconfdir}/X11/gdm/modules
 %{_libdir}/gtk-2.0/modules/*.so
-%{_datadir}/applications/gdmsetup.desktop
-%{_datadir}/applications/gdmflexiserver.desktop
-%{_datadir}/applications/gdmphotosetup.desktop
 %{_datadir}/pixmaps/*
 %{_datadir}/gdm
-%{_menudir}/gdm
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/gdm
 %dir %{_var}/log/gdm
@@ -312,5 +249,3 @@ fi
 %{_bindir}/gdmthemetester
 %{_bindir}/gdmXnestchooser
 %{_bindir}/gdmXnest
-%{_datadir}/applications/gdmflexiserver-xnest.desktop
-%{_menudir}/gdm-Xnest
