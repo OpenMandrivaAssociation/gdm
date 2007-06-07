@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.19.2
-Release: %mkrel 1
+Release: %mkrel 2
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
