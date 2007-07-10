@@ -1,6 +1,6 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.19.3
+Version: 2.19.4
 Release: %mkrel 1
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
@@ -11,7 +11,7 @@ Source3: gdm_32.png
 Source4: gdm_16.png
 
 # (fc) 2.2.2.1-1mdk change default configuration
-Patch0: gdm-2.19.0-defaultconf.patch
+Patch0: gdm-2.19.4-defaultconf.patch
 # (fc) 2.4.0.11-3mdk use xvt instead of xterm
 Patch1: gdm-2.19.1-xvt.patch
 # (fc) 2.6.0.6-3mdk use pam_timestamp for gdmsetup (Fedora)
