@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.19.4
-Release: %mkrel 1
+Release: %mkrel 2
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -53,6 +53,7 @@ BuildRequires: usermode
 BuildRequires: scrollkeeper
 BuildRequires: gnome-doc-utils
 BuildRequires: automake1.9 intltool
+BuildRequires: consolekit-devel
 #gw for running intltool scripts
 BuildRequires: perl-XML-Parser
 
@@ -94,7 +95,7 @@ sed -i -e 's/..\(_..\)*\.UTF-8\(@[^,]\+\)*,//g' config/locale.alias
 %build
 
 %configure2_5x --enable-console-helper --sysconfdir=%{_sysconfdir}/X11 \
-  --disable-scrollkeeper 
+  --disable-scrollkeeper --with-console-kit=yes
 %make
 
 %install
