@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.19.6
-Release: %mkrel 1
+Release: %mkrel 2
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -9,6 +9,7 @@ Source0: ftp://ftp.gnome.org/pub/GNOME/sources/gdm/%{name}-%{version}.tar.bz2
 Source2: gdm_48.png
 Source3: gdm_32.png
 Source4: gdm_16.png
+Source5: gdm-consolekit.conf
 
 # (fc) 2.2.2.1-1mdk change default configuration
 Patch0: gdm-2.19.4-defaultconf.patch
@@ -38,12 +39,9 @@ Requires: cdialog
 Requires: zenity
 Requires: drakxtools-newt
 Requires: xinitrc >= 2.4.14
-%if %mdkversion >= 200610
 BuildRequires: X11-static-devel
 BuildRequires: x11-server-xorg
-%else
-BuildRequires: XFree86-static-devel
-%endif
+BuildRequires: x11-server-xephyr
 BuildRequires: gettext
 BuildRequires: libglade2.0-devel
 BuildRequires: libgnomeui2-devel
@@ -70,7 +68,7 @@ several different X sessions on your local machine at the same time.
 Summary: Xnest (ie embedded X) server for GDM
 Group: %{group}
 Requires: %{name} = %{version}
-Requires: x11-server-xnest
+Requires: x11-server-xephyr
 
 %description Xnest
 Gdm (the GNOME Display Manager) is a highly configurable
@@ -123,6 +121,10 @@ cp %{SOURCE4} $RPM_BUILD_ROOT%{_miconsdir}/gdm.png
 for omf in %buildroot%_datadir/omf/%name/%name-??*.omf;do 
 echo "%lang($(basename $omf|sed -e s/%name-// -e s/.omf//)) $(echo $omf|sed -e s!%buildroot!!)" >> %name-2.4.lang
 done
+
+#config for ConsoleKit
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/dbus-1/system.d/
+install -m644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/dbus-1/system.d/gdm-ConsoleKit.conf
 
 mkdir -p $RPM_BUILD_ROOT%{_var}/log/gdm $RPM_BUILD_ROOT%{_sysconfdir}/X11/dm/Sessions
 
@@ -205,6 +207,7 @@ fi
 %defattr(-, root, root)
 
 %doc AUTHORS COPYING NEWS README gui/greeter/greeter.dtd
+%_sysconfdir/dbus-1/system.d/*
 %_bindir/gdm-dmx-reconnect-proxy
 %_bindir/gdmdynamic
 %_bindir/gdmsetup
