@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.19.7
-Release: %mkrel 1
+Release: %mkrel 2
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -22,6 +22,8 @@ Patch4: gdm-2.19.0-pam.patch
 Patch5: gdm-2.19.0-cleanup-xses.patch
 # (fc) 2.18.0-2mdv force TMPDIR to /tmp, fix a11y startup inside gdm (Mdv bug #23215)
 Patch6: gdm-2.19.1-tmpdir.patch
+# (fc) 2.19.7-2mdv fix path for gdmsetup .desktop with usermode
+Patch7: gdm-2.19.7-usermode.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 Provides: dm
@@ -87,6 +89,7 @@ cp config/Init.in config/Default.in
 %patch4 -p1 -b .pam
 %patch5 -p1 -b .cleanup_xses
 %patch6 -p1 -b .tmpdir
+%patch7 -p1 -b .usermode
 
 cp config/locale.alias config/locales.alias.noutf8
 sed -i -e 's/..\(_..\)*\.UTF-8\(@[^,]\+\)*,//g' config/locale.alias
@@ -182,7 +185,7 @@ if test x$PIDFILE = x ; then
 fi
 if test -w $FIFOFILE ; then
         if test -f $PIDFILE ; then
-                if kill -0 `cat $PIDFILE` ; then
+                if kill -0 `cat $PIDFILE` 2> /dev/null ; then
                         (echo;echo SOFT_RESTART) >> $FIFOFILE
                 fi
         fi
