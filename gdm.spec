@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.19.8
-Release: %mkrel 1
+Release: %mkrel 2
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -41,6 +41,8 @@ Requires: cdialog
 Requires: zenity
 Requires: drakxtools-newt
 Requires: xinitrc >= 2.4.14
+Requires: openssh-clients
+Requires: openssh-askpass-gnome
 BuildRequires: X11-static-devel
 BuildRequires: x11-server-xorg
 BuildRequires: x11-server-xephyr
@@ -98,7 +100,7 @@ sed -i -e 's/..\(_..\)*\.UTF-8\(@[^,]\+\)*,//g' config/locale.alias
 %build
 
 %configure2_5x --enable-console-helper --sysconfdir=%{_sysconfdir}/X11 \
-  --disable-scrollkeeper --with-console-kit=yes
+  --disable-scrollkeeper --with-console-kit=yes --enable-secureremote=yes
 %make
 
 %install
@@ -132,10 +134,9 @@ install -m644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/dbus-1/system.d/gdm-Conso
 mkdir -p $RPM_BUILD_ROOT%{_var}/log/gdm $RPM_BUILD_ROOT%{_sysconfdir}/X11/dm/Sessions
 
 #remove unpackaged files
-rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/X11/dm/Sessions/*.desktop \
-  $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/modules/*.{la,a} \
+rm -rf   $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/modules/*.{la,a} \
   $RPM_BUILD_ROOT%{_sysconfdir}/X11/gdm/PostLogin/Default.sample \
-  $RPM_BUILD_ROOT%{_datadir}/xsessions
+  $RPM_BUILD_ROOT%{_datadir}/xsessions/gnome.desktop
 
 %clean
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
@@ -222,6 +223,7 @@ fi
 %{_libexecdir}/gdmaskpass
 %{_libexecdir}/gdmopen
 %{_libexecdir}/gdmtranslate
+%{_libexecdir}/gdm-ssh-session
 %{_sbindir}/*
 %dir %{_sysconfdir}/X11/gdm
 %{_sysconfdir}/X11/gdm/XKeepsCrashing
@@ -252,6 +254,8 @@ fi
 %dir %{_datadir}/omf/%name
 %{_datadir}/omf/%name/%name-C.omf
 %{_mandir}/man1/*
+%dir %{_datadir}/xsessions
+%{_datadir}/xsessions/ssh.desktop
 
 %files Xnest
 %defattr(-, root, root)
