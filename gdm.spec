@@ -58,6 +58,7 @@ BuildRequires: automake1.9 intltool
 BuildRequires: consolekit-devel
 BuildRequires: libwrap-devel
 BuildRequires: libaudit-devel
+BuildRequires: zenity
 #gw for running intltool scripts
 BuildRequires: perl-XML-Parser
 
