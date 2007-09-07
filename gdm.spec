@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.19.8
-Release: %mkrel 2
+Release: %mkrel 3
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -24,6 +24,9 @@ Patch5: gdm-2.19.0-cleanup-xses.patch
 Patch6: gdm-2.19.1-tmpdir.patch
 # (fc) 2.19.7-2mdv fix path for gdmsetup .desktop with usermode
 Patch7: gdm-2.19.7-usermode.patch
+# (fc) 2.19.8-3mdv don't set GDM_LANG for default system locale (Mdv bug #31290)
+Patch8: gdm-2.19.8-gdmlang.patch
+
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 Provides: dm
@@ -93,6 +96,7 @@ cp config/Init.in config/Default.in
 %patch5 -p1 -b .cleanup_xses
 %patch6 -p1 -b .tmpdir
 %patch7 -p1 -b .usermode
+%patch8 -p1 -b .gdmlang
 
 cp config/locale.alias config/locales.alias.noutf8
 sed -i -e 's/..\(_..\)*\.UTF-8\(@[^,]\+\)*,//g' config/locale.alias
