@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.0
-Release: %mkrel 1
+Release: %mkrel 2
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -26,6 +26,11 @@ Patch6: gdm-2.19.1-tmpdir.patch
 Patch7: gdm-2.19.7-usermode.patch
 # (fc) 2.19.8-3mdv don't set GDM_LANG for default system locale (Mdv bug #31290)
 Patch8: gdm-2.19.8-gdmlang.patch
+# (fc) 2.20.0-2mdv fix .dmrc handling (Mdv bug #33755)
+Patch9: gdm-2.20.0-dmrc.patch
+# (fc) 2.20.0-2mdv prevent lockup when at-spi / prefetch (GNOME bug #473480) (SVN)
+Patch10: gdm-2.20.0-devnull.patch
+ 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -97,6 +102,8 @@ cp config/Init.in config/Default.in
 %patch6 -p1 -b .tmpdir
 %patch7 -p1 -b .usermode
 %patch8 -p1 -b .gdmlang
+%patch9 -p1 -b .dmrc
+%patch10 -p1 -b .devnull
 
 cp config/locale.alias config/locales.alias.noutf8
 sed -i -e 's/..\(_..\)*\.UTF-8\(@[^,]\+\)*,//g' config/locale.alias
