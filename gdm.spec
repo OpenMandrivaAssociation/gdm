@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.1
-Release: %mkrel 2
+Release: %mkrel 3
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -26,6 +26,10 @@ Patch6: gdm-2.19.1-tmpdir.patch
 Patch7: gdm-2.19.7-usermode.patch
 # (fc) 2.19.8-3mdv don't set GDM_LANG for default system locale (Mdv bug #31290)
 Patch8: gdm-2.19.8-gdmlang.patch
+# (fc) 2.20.1-3mdv various SVN fixes, including XDMCP client (Mdv bug #35522)
+Patch9: gdm-2.20.1-svnfixes.patch
+# (fc) 2.20.1-3mdv don't force UTF-8 on zh locale, rely on default locale
+Patch10: gdm-2.20.1-zhlocale.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -97,10 +101,8 @@ cp config/Init.in config/Default.in
 %patch6 -p1 -b .tmpdir
 %patch7 -p1 -b .usermode
 %patch8 -p1 -b .gdmlang
-
-cp config/locale.alias config/locales.alias.noutf8
-sed -i -e 's/..\(_..\)*\.UTF-8\(@[^,]\+\)*,//g' config/locale.alias
-
+%patch9 -p1 -b .svnfixes
+%patch10 -p1 -b .zhlocale
 
 %build
 
