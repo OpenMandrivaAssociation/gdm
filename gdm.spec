@@ -46,6 +46,7 @@ Requires: sessreg
 Requires: usermode
 Requires: cdialog
 Requires: zenity
+# for XFdrake on failsafe fallback:
 Requires: drakx-kbd-mouse-x11
 Requires: xinitrc >= 2.4.14
 Requires: openssh-clients
