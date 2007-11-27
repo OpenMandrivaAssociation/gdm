@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.20.1
-Release: %mkrel 4
+Version: 2.20.2
+Release: %mkrel 1
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -23,11 +23,9 @@ Patch5: gdm-2.19.0-cleanup-xses.patch
 # (fc) 2.18.0-2mdv force TMPDIR to /tmp, fix a11y startup inside gdm (Mdv bug #23215)
 Patch6: gdm-2.19.1-tmpdir.patch
 # (fc) 2.19.7-2mdv fix path for gdmsetup .desktop with usermode
-Patch7: gdm-2.19.7-usermode.patch
+Patch7: gdm-2.20.2-usermode.patch
 # (fc) 2.19.8-3mdv don't set GDM_LANG for default system locale (Mdv bug #31290)
 Patch8: gdm-2.19.8-gdmlang.patch
-# (fc) 2.20.1-3mdv various SVN fixes, including XDMCP client (Mdv bug #35522)
-Patch9: gdm-2.20.1-svnfixes.patch
 # (fc) 2.20.1-3mdv don't force UTF-8 on zh locale, rely on default locale
 Patch10: gdm-2.20.1-zhlocale.patch
 
@@ -102,7 +100,6 @@ cp config/Init.in config/Default.in
 %patch6 -p1 -b .tmpdir
 %patch7 -p1 -b .usermode
 %patch8 -p1 -b .gdmlang
-%patch9 -p1 -b .svnfixes
 %patch10 -p1 -b .zhlocale
 
 %build
@@ -255,7 +252,7 @@ fi
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/gdm
 %dir %{_var}/log/gdm
-%_datadir/icons/hicolor/*/apps/gdm*.png
+%_datadir/icons/hicolor/*/apps/gdm*
 %{_liconsdir}/*.png
 %{_iconsdir}/*.png
 %{_miconsdir}/*.png
