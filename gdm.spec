@@ -29,7 +29,6 @@ Patch8: gdm-2.19.8-gdmlang.patch
 # (fc) 2.20.1-3mdv don't force UTF-8 on zh locale, rely on default locale
 Patch10: gdm-2.20.1-zhlocale.patch
 
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 Provides: dm
 
