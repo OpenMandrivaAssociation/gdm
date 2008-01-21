@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.3
-Release: %mkrel 1
+Release: %mkrel 2
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -10,6 +10,7 @@ Source2: gdm_48.png
 Source3: gdm_32.png
 Source4: gdm_16.png
 Source5: gdm-consolekit.conf
+Source6: 90-grant-audio-devices-to-gdm.fdi
 
 # (fc) 2.2.2.1-1mdk change default configuration
 Patch0: gdm-2.19.4-defaultconf.patch
@@ -17,7 +18,7 @@ Patch0: gdm-2.19.4-defaultconf.patch
 Patch1: gdm-2.19.1-xvt.patch
 # (fc) 2.6.0.6-3mdk use pam_timestamp for gdmsetup (Fedora)
 # and  don't use deprecated pam_stack (blino)
-Patch4: gdm-2.19.0-pam.patch
+Patch4: gdm-pam.patch
 # (fc) 2.6.0.6-3mdk clean up xses if session was sucessfully completed (Fedora)
 Patch5: gdm-2.19.0-cleanup-xses.patch
 # (fc) 2.18.0-2mdv force TMPDIR to /tmp, fix a11y startup inside gdm (Mdv bug #23215)
@@ -38,7 +39,7 @@ Requires(postun):  rpm-helper
 Requires(post):	   scrollkeeper >= 0.3
 Requires(postun):  scrollkeeper >= 0.3
 Requires(post): desktop-common-data
-Requires: pam >= 0.72-11mdk
+Requires: pam >= 0.99.8.1-8mdv
 Requires: setup >= 2.1.9-33mdk
 Requires: sessreg
 Requires: usermode
@@ -126,6 +127,9 @@ mkdir -p  $RPM_BUILD_ROOT%{_liconsdir} $RPM_BUILD_ROOT%{_miconsdir}
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_liconsdir}/gdm.png
 cp %{SOURCE3} $RPM_BUILD_ROOT%{_iconsdir}/gdm.png
 cp %{SOURCE4} $RPM_BUILD_ROOT%{_miconsdir}/gdm.png
+
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
+install -m644 %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
 
 %{find_lang} %{name}-2.4 --with-gnome --all-name
 for omf in %buildroot%_datadir/omf/%name/%name-??*.omf;do 
@@ -249,6 +253,7 @@ fi
 %{_libdir}/gtk-2.0/modules/*.so
 %{_datadir}/pixmaps/*
 %{_datadir}/gdm
+%{_datadir}/PolicyKit/policy/*
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/gdm
 %dir %{_var}/log/gdm
