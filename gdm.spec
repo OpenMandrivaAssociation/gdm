@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.20.3
-Release: %mkrel 2
+Version: 2.21.5
+Release: %mkrel 1
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -92,7 +92,8 @@ This package add support for Xnest server in gdm
 
 %prep
 %setup -q
-cp config/Init.in config/Default.in
+ln -s data config
+cp data/Init.in data/Default.in
 
 %patch0 -p1 -b .defaultconf
 %patch1 -p1 -b .xvt
@@ -177,7 +178,6 @@ if [ -f /%{_sysconfdir}/X11/xdm/Xsession -a ! -x /%{_sysconfdir}/X11/xdm/Xsessio
 	chmod +x /%{_sysconfdir}/X11/xdm/Xsession
 fi
 %{make_session}
-%{update_menus}
 /sbin/ldconfig
 %update_scrollkeeper
 # Attempt to restart GDM softly by use of the fifo.  Wont work on older
@@ -212,7 +212,6 @@ fi
 %{make_session}
 %_postun_userdel gdm
 %_postun_groupdel xgrp gdm
-%{clean_menus}
 /sbin/ldconfig
 %clean_scrollkeeper
 
