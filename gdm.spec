@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.21.5
-Release: %mkrel 1
+Version: 2.20.3
+Release: %mkrel 2
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -92,8 +92,7 @@ This package add support for Xnest server in gdm
 
 %prep
 %setup -q
-ln -s data config
-cp data/Init.in data/Default.in
+cp config/Init.in config/Default.in
 
 %patch0 -p1 -b .defaultconf
 %patch1 -p1 -b .xvt
