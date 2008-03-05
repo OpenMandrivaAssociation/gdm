@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.3
-Release: %mkrel 2
+Release: %mkrel 3
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -29,6 +29,10 @@ Patch7: gdm-2.20.2-usermode.patch
 Patch8: gdm-2.19.8-gdmlang.patch
 # (fc) 2.20.1-3mdv don't force UTF-8 on zh locale, rely on default locale
 Patch10: gdm-2.20.1-zhlocale.patch
+# (fc) 2.20.3-3mdv check both welcome message for translation
+Patch11: gdm-2.20.3-welcome.patch
+# (fc) 2.20.3-3mdv improve face browser
+Patch12: gdm-2.20.3-face.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -102,6 +106,8 @@ cp config/Init.in config/Default.in
 %patch7 -p1 -b .usermode
 %patch8 -p1 -b .gdmlang
 %patch10 -p1 -b .zhlocale
+%patch11 -p1 -b .welcome
+%patch12 -p1 -b .face
 
 %build
 
@@ -127,6 +133,13 @@ mkdir -p  $RPM_BUILD_ROOT%{_liconsdir} $RPM_BUILD_ROOT%{_miconsdir}
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_liconsdir}/gdm.png
 cp %{SOURCE3} $RPM_BUILD_ROOT%{_iconsdir}/gdm.png
 cp %{SOURCE4} $RPM_BUILD_ROOT%{_miconsdir}/gdm.png
+
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/gdm/themes/mdv-nolist
+ln -f -s ../../../mdk/dm/GdmGreeterTheme-nolist.desktop $RPM_BUILD_ROOT%{_datadir}/gdm/themes/mdv-nolist/GdmGreeterTheme.desktop
+for i in disconnect.png languages.png sessions.png system.png mdk-gdm-nolist.xml screenshot-gdm-nolist.png ; do
+ ln -f -s ../../../mdk/dm/$i $RPM_BUILD_ROOT%{_datadir}/gdm/themes/mdv-nolist/
+done
+
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
 install -m644 %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
