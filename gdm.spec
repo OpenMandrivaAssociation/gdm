@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.20.3
-Release: %mkrel 3
+Version: 2.20.4
+Release: %mkrel 1
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -13,7 +13,7 @@ Source5: gdm-consolekit.conf
 Source6: 90-grant-audio-devices-to-gdm.fdi
 
 # (fc) 2.2.2.1-1mdk change default configuration
-Patch0: gdm-2.19.4-defaultconf.patch
+Patch0: gdm-2.20.4-defaultconf.patch
 # (fc) 2.4.0.11-3mdk use xvt instead of xterm
 Patch1: gdm-2.19.1-xvt.patch
 # (fc) 2.6.0.6-3mdk use pam_timestamp for gdmsetup (Fedora)
@@ -29,8 +29,6 @@ Patch7: gdm-2.20.2-usermode.patch
 Patch8: gdm-2.19.8-gdmlang.patch
 # (fc) 2.20.1-3mdv don't force UTF-8 on zh locale, rely on default locale
 Patch10: gdm-2.20.1-zhlocale.patch
-# (fc) 2.20.3-3mdv check both welcome message for translation
-Patch11: gdm-2.20.3-welcome.patch
 # (fc) 2.20.3-3mdv improve face browser
 Patch12: gdm-2.20.3-face.patch
 
@@ -106,8 +104,9 @@ cp config/Init.in config/Default.in
 %patch7 -p1 -b .usermode
 %patch8 -p1 -b .gdmlang
 %patch10 -p1 -b .zhlocale
-%patch11 -p1 -b .welcome
 %patch12 -p1 -b .face
+#gw  configure: error: newly created file is older than distributed files!
+touch *
 
 %build
 
