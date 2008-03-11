@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.4
-Release: %mkrel 2
+Release: %mkrel 3
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -31,6 +31,8 @@ Patch8: gdm-2.19.8-gdmlang.patch
 Patch10: gdm-2.20.1-zhlocale.patch
 # (fc) 2.20.3-3mdv improve face browser
 Patch12: gdm-2.20.3-face.patch
+# (fc) 2.20.4-3mdv grab translation from gtk+mdk for "Welcome to %n" until upstream has enough translations
+Patch13: gdm-2.20.4-welcome.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -52,6 +54,8 @@ Requires: drakx-kbd-mouse-x11
 Requires: xinitrc >= 2.4.14
 Requires: openssh-clients
 Requires: openssh-askpass-gnome
+#needed by patch13
+Requires: menu-messages
 BuildRequires: X11-static-devel
 BuildRequires: x11-server-xorg
 BuildRequires: x11-server-xephyr
@@ -105,6 +109,7 @@ cp config/Init.in config/Default.in
 %patch8 -p1 -b .gdmlang
 %patch10 -p1 -b .zhlocale
 %patch12 -p1 -b .face
+%patch13 -p1 -b .welcome
 #gw  configure: error: newly created file is older than distributed files!
 touch *
 
