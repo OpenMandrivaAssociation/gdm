@@ -1,6 +1,6 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.20.5
+Version: 2.20.6
 Release: %mkrel 1
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
@@ -13,7 +13,7 @@ Source5: gdm-consolekit.conf
 Source6: 90-grant-audio-devices-to-gdm.fdi
 
 # (fc) 2.2.2.1-1mdk change default configuration
-Patch0: gdm-2.20.4-defaultconf.patch
+Patch0: gdm-2.20.6-defaultconf.patch
 # (fc) 2.4.0.11-3mdk use xvt instead of xterm
 Patch1: gdm-2.19.1-xvt.patch
 # (fc) 2.6.0.6-3mdk use pam_timestamp for gdmsetup (Fedora)
@@ -98,7 +98,6 @@ This package add support for Xnest server in gdm
 
 %prep
 %setup -q
-cp config/Init.in config/Default.in
 
 %patch0 -p1 -b .defaultconf
 %patch1 -p1 -b .xvt
