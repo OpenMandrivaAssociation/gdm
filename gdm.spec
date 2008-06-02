@@ -167,7 +167,7 @@ rm -rf   $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/modules/*.{la,a} \
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
 
 %pre
-%_pre_useradd gdm %{_localstatedir}/gdm /bin/false
+%_pre_useradd gdm %{_localstatedir}/lib/gdm /bin/false
 %_pre_groupadd xgrp gdm
 
 %triggerpostun -- gdm < 2.8.0.0-2mdk
@@ -200,7 +200,7 @@ fi
 # FIXME: this is just way too complex
 FIFOFILE=`grep '^ServAuthDir=' %{_sysconfdir}/X11/gdm/custom.conf | sed -e 's/^ServAuthDir=//'`
 if test x$FIFOFILE = x ; then
-        FIFOFILE=%{_localstatedir}/gdm/.gdmfifo
+        FIFOFILE=%{_localstatedir}/lib/gdm/.gdmfifo
 else
         FIFOFILE="$FIFOFILE"/.gdmfifo
 fi
@@ -269,7 +269,7 @@ fi
 %{_datadir}/gdm
 %{_datadir}/PolicyKit/policy/*
 %dir %{_datadir}/hosts
-%attr(1770, gdm, gdm) %dir %{_localstatedir}/gdm
+%attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
 %dir %{_var}/log/gdm
 %_datadir/icons/hicolor/*/apps/gdm*
 %{_liconsdir}/*.png
