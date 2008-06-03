@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.6
-Release: %mkrel 1
+Release: %mkrel 2
 License: LGPL/GPL
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -33,6 +33,8 @@ Patch10: gdm-2.20.1-zhlocale.patch
 Patch12: gdm-2.20.3-face.patch
 # (fc) 2.20.4-3mdv grab translation from gtk+mdk for "Welcome to %n" until upstream has enough translations
 Patch13: gdm-2.20.4-welcome.patch
+# (fc) 2.20.6-2mdv fix invalid free (GNOME bug #517526)
+Patch14: gdm-2.20.6-fixfree.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -109,13 +111,15 @@ This package add support for Xnest server in gdm
 %patch10 -p1 -b .zhlocale
 %patch12 -p1 -b .face
 %patch13 -p1 -b .welcome
+%patch14 -p1 -b .fixfree
 #gw  configure: error: newly created file is older than distributed files!
 touch *
 
 %build
 
 %configure2_5x --enable-console-helper --sysconfdir=%{_sysconfdir}/X11 \
-  --disable-scrollkeeper --with-console-kit=yes --enable-secureremote=yes
+  --disable-scrollkeeper --with-console-kit=yes --enable-secureremote=yes \
+ --localstatedir=%{_var}/lib
 %make
 
 %install
@@ -167,7 +171,7 @@ rm -rf   $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/modules/*.{la,a} \
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
 
 %pre
-%_pre_useradd gdm %{_localstatedir}/lib/gdm /bin/false
+%_pre_useradd gdm %{_var}/lib/gdm /bin/false
 %_pre_groupadd xgrp gdm
 
 %triggerpostun -- gdm < 2.8.0.0-2mdk
@@ -200,7 +204,7 @@ fi
 # FIXME: this is just way too complex
 FIFOFILE=`grep '^ServAuthDir=' %{_sysconfdir}/X11/gdm/custom.conf | sed -e 's/^ServAuthDir=//'`
 if test x$FIFOFILE = x ; then
-        FIFOFILE=%{_localstatedir}/lib/gdm/.gdmfifo
+        FIFOFILE=%{_var}/lib/gdm/.gdmfifo
 else
         FIFOFILE="$FIFOFILE"/.gdmfifo
 fi
@@ -269,7 +273,7 @@ fi
 %{_datadir}/gdm
 %{_datadir}/PolicyKit/policy/*
 %dir %{_datadir}/hosts
-%attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
+%attr(1770, gdm, gdm) %dir %{_var}/lib/gdm
 %dir %{_var}/log/gdm
 %_datadir/icons/hicolor/*/apps/gdm*
 %{_liconsdir}/*.png
