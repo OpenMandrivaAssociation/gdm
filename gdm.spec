@@ -197,7 +197,9 @@ if [ -f /%{_sysconfdir}/X11/xdm/Xsession -a ! -x /%{_sysconfdir}/X11/xdm/Xsessio
 	chmod +x /%{_sysconfdir}/X11/xdm/Xsession
 fi
 %{make_session}
+%if %mdkversion < 200900
 /sbin/ldconfig
+%endif
 %update_scrollkeeper
 # Attempt to restart GDM softly by use of the fifo.  Wont work on older
 # then 2.2.3.1 versions but should work nicely on later upgrades.
@@ -231,7 +233,9 @@ fi
 %{make_session}
 %_postun_userdel gdm
 %_postun_groupdel xgrp gdm
+%if %mdkversion < 200900
 /sbin/ldconfig
+%endif
 %clean_scrollkeeper
 
 %files -f %{name}-2.4.lang
