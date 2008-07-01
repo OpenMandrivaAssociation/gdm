@@ -1,8 +1,8 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.20.6
-Release: %mkrel 3
-License: LGPL/GPL
+Version: 2.20.7
+Release: %mkrel 1
+License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/gdm/%{name}-%{version}.tar.bz2
@@ -33,8 +33,6 @@ Patch10: gdm-2.20.1-zhlocale.patch
 Patch12: gdm-2.20.3-face.patch
 # (fc) 2.20.4-3mdv grab translation from gtk+mdk for "Welcome to %n" until upstream has enough translations
 Patch13: gdm-2.20.4-welcome.patch
-# (fc) 2.20.6-2mdv fix invalid free (GNOME bug #517526)
-Patch14: gdm-2.20.6-fixfree.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -111,9 +109,6 @@ This package add support for Xnest server in gdm
 %patch10 -p1 -b .zhlocale
 %patch12 -p1 -b .face
 %patch13 -p1 -b .welcome
-%patch14 -p1 -b .fixfree
-#gw  configure: error: newly created file is older than distributed files!
-touch *
 
 %build
 
