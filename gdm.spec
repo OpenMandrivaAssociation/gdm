@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.7
-Release: %mkrel 1
+Release: %mkrel 2
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -191,7 +191,8 @@ fi
 if [ -f /%{_sysconfdir}/X11/xdm/Xsession -a ! -x /%{_sysconfdir}/X11/xdm/Xsession ]; then
 	chmod +x /%{_sysconfdir}/X11/xdm/Xsession
 fi
-%{make_session}
+if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
+
 %if %mdkversion < 200900
 /sbin/ldconfig
 %endif
