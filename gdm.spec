@@ -1,6 +1,6 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.20.8
+Version: 2.20.9
 Release: %mkrel 1
 License: GPLv2+
 Group: Graphical desktop/GNOME
@@ -13,7 +13,7 @@ Source5: gdm-consolekit.conf
 Source6: 90-grant-audio-devices-to-gdm.fdi
 
 # (fc) 2.2.2.1-1mdk change default configuration
-Patch0: gdm-2.20.6-defaultconf.patch
+Patch0: gdm-2.20.9-defaultconf.patch
 # (fc) 2.4.0.11-3mdk use xvt instead of xterm
 Patch1: gdm-2.19.1-xvt.patch
 # (fc) 2.6.0.6-3mdk use pam_timestamp for gdmsetup (Fedora)
@@ -33,7 +33,7 @@ Patch10: gdm-2.20.1-zhlocale.patch
 Patch12: gdm-2.20.3-face.patch
 # (fc) 2.20.4-3mdv grab translation from gtk+mdk for "Welcome to %n" until upstream has enough translations
 Patch13: gdm-2.20.4-welcome.patch
-
+Patch14: gdm-2.20.9-format-strings.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 Provides: dm
@@ -109,6 +109,7 @@ This package add support for Xnest server in gdm
 %patch10 -p1 -b .zhlocale
 %patch12 -p1 -b .face
 %patch13 -p1 -b .welcome
+%patch14 -p1
 
 %build
 
