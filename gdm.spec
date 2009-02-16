@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.9
-Release: %mkrel 1
+Release: %mkrel 2
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -52,8 +52,9 @@ Requires: zenity
 # for XFdrake on failsafe fallback:
 Requires: drakx-kbd-mouse-x11
 Requires: xinitrc >= 2.4.14
-Requires: openssh-clients
-Requires: openssh-askpass-gnome
+# used for secure remote login
+Suggests: openssh-clients
+Suggests: openssh-askpass-gnome
 #needed by patch13
 Requires: menu-messages
 BuildRequires: X11-static-devel
