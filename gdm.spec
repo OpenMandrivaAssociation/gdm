@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.20.9
-Release: %mkrel 2
+Version: 2.20.10
+Release: %mkrel 1
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -13,7 +13,7 @@ Source5: gdm-consolekit.conf
 Source6: 90-grant-audio-devices-to-gdm.fdi
 
 # (fc) 2.2.2.1-1mdk change default configuration
-Patch0: gdm-2.20.9-defaultconf.patch
+Patch0: gdm-2.20.10-defaultconf.patch
 # (fc) 2.4.0.11-3mdk use xvt instead of xterm
 Patch1: gdm-2.19.1-xvt.patch
 # (fc) 2.6.0.6-3mdk use pam_timestamp for gdmsetup (Fedora)
