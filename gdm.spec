@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.10
-Release: %mkrel 2
+Release: %mkrel 3
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -34,6 +34,8 @@ Patch12: gdm-2.20.3-face.patch
 # (fc) 2.20.4-3mdv grab translation from gtk+mdk for "Welcome to %n" until upstream has enough translations
 Patch13: gdm-2.20.4-welcome.patch
 Patch14: gdm-2.20.9-format-strings.patch
+# (fc) 2.20.10-3mdv set root pixmap for background
+Patch15: gdm-2.20.10-rootpixmap.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 Provides: dm
@@ -111,6 +113,7 @@ This package add support for Xnest server in gdm
 %patch12 -p1 -b .face
 %patch13 -p1 -b .welcome
 %patch14 -p1
+%patch15 -p1 -b .rootpixmap
 
 %build
 
