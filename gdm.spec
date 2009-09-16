@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.10
-Release: %mkrel 3
+Release: %mkrel 4
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -151,9 +151,9 @@ done
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
 install -m644 %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
 
-%{find_lang} %{name}-2.4 --with-gnome --all-name
+%{find_lang} %{name} --with-gnome --all-name
 for omf in %buildroot%_datadir/omf/%name/%name-??*.omf;do 
-echo "%lang($(basename $omf|sed -e s/%name-// -e s/.omf//)) $(echo $omf|sed -e s!%buildroot!!)" >> %name-2.4.lang
+echo "%lang($(basename $omf|sed -e s/%name-// -e s/.omf//)) $(echo $omf|sed -e s!%buildroot!!)" >> %name.lang
 done
 
 #config for ConsoleKit
@@ -239,7 +239,7 @@ fi
 %endif
 %clean_scrollkeeper
 
-%files -f %{name}-2.4.lang
+%files -f %{name}.lang
 %defattr(-, root, root)
 
 %doc AUTHORS COPYING NEWS README gui/greeter/greeter.dtd
