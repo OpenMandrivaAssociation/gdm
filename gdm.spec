@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.10
-Release: %mkrel 4
+Release: %mkrel 5
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -36,6 +36,8 @@ Patch13: gdm-2.20.4-welcome.patch
 Patch14: gdm-2.20.9-format-strings.patch
 # (fc) 2.20.10-3mdv set root pixmap for background
 Patch15: gdm-2.20.10-rootpixmap.patch
+# (fc) 2.20.10-4mdv wait a little before restarting X server on reboot / shutdown (SUSE) (Mdv bug #53757)
+Patch16: gdm-2.20.0-wait-for-restart.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 Provides: dm
@@ -112,8 +114,9 @@ This package add support for Xnest server in gdm
 %patch10 -p1 -b .zhlocale
 %patch12 -p1 -b .face
 %patch13 -p1 -b .welcome
-%patch14 -p1
+%patch14 -p1 -b .format_string
 %patch15 -p1 -b .rootpixmap
+%patch16 -p1 -b .waitforrestart
 
 %build
 
