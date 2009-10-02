@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.20.10
-Release: %mkrel 5
+Release: %mkrel 6
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -18,6 +18,7 @@ Patch0: gdm-2.20.10-defaultconf.patch
 Patch1: gdm-2.19.1-xvt.patch
 # (fc) 2.6.0.6-3mdk use pam_timestamp for gdmsetup (Fedora)
 # and  don't use deprecated pam_stack (blino)
+# and use pam_namespace for xguest (tv)
 Patch4: gdm-pam.patch
 # (fc) 2.6.0.6-3mdk clean up xses if session was sucessfully completed (Fedora)
 Patch5: gdm-2.19.0-cleanup-xses.patch
