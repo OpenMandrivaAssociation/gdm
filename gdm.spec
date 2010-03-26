@@ -1,11 +1,12 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.29.92
-Release: %mkrel 1
+Release: %mkrel 2
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/gdm/%{name}-%{version}.tar.bz2
+Source1: %gconf-tree.xml
 Source6: 90-grant-audio-devices-to-gdm.fdi
 
 # (fc) 2.2.2.1-1mdk change default configuration
@@ -141,6 +142,9 @@ done
 
 mkdir -p $RPM_BUILD_ROOT%{_var}/log/gdm $RPM_BUILD_ROOT%{_sysconfdir}/X11/dm/Sessions
 
+mkdir -p $RPM_BUILD_ROOT%{_var}/lib/gdm/.gconf.defaults
+install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_var}/lib/gdm/.gconf.defaults
+
 #remove unpackaged files
 rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/X11/gdm/PostLogin/Default.sample \
   $RPM_BUILD_ROOT%{_datadir}/xsessions/gnome.desktop
@@ -267,6 +271,8 @@ fi
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
 %attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.mandatory
 %attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.mandatory/*.xml
+%attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.defaults
+%attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.defaults/*.xml
 %attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.path
 %attr(1755, gdm, gdm) %dir %{_localstatedir}/run/gdm/greeter
 %attr(1777, root, gdm) %dir %{_localstatedir}/run/gdm
