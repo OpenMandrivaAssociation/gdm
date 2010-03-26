@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.29.92
-Release: %mkrel 2
+Release: %mkrel 3
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -28,6 +28,8 @@ Patch23: gdm-disable-fatal-warnings.patch
 Patch25: gdm-2.29.5-gconf-defaults.patch
 # (fc) 2.29.5-1mdv improve greeter transparency
 Patch26: gdm-2.29.5-improve-greeter-transparency.patch
+# (fc) 2.29.92-3mdv handle dmrc migration better (Mdv bug #58414)
+Patch27: gdm-2.29.92-dmrc-migration.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -98,6 +100,7 @@ cp data/Init.in data/Default.in
 %patch25 -p1 -b .gconf-defaults
 #%patch13 -p1 -b .welcome
 %patch26 -p1 -b .improve-greeter-transparency
+%patch27 -p1 -b .dmrc-migration
 
 libtoolize
 autoreconf
