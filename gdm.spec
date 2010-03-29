@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.29.92
-Release: %mkrel 3
+Release: %mkrel 4
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -46,6 +46,7 @@ Requires: sessreg
 Requires: usermode
 Requires: cdialog
 Requires: zenity
+Requires: gnome-session
 # for XFdrake on failsafe fallback:
 Requires: drakx-kbd-mouse-x11
 Requires: xinitrc >= 2.4.14
