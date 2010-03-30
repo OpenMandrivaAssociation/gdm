@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.0
-Release: %mkrel 1
+Release: %mkrel 2
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -14,10 +14,8 @@ Patch0: gdm-2.29.5-defaultconf.patch
 Patch2: gdm-2.22.0-fix-linking.patch
 # (fc) 2.20.4-3mdv grab translation from gtk+mdk for "Welcome to %n" until upstream has enough translations
 Patch13: gdm-2.20.4-welcome.patch
-# (fc) 2.28.0-1mdv Try to use active VT for X (Fedora)
-Patch16: gdm-2.29.1-force-active-vt.patch
-# (fc) 2.28.0-1mdv Save root window in XSETROOTID property for transition (Fedora)
-Patch17: gdm-2.23.92-save-root-window.patch
+# (fc) 2.28.0-1mdv Smooth integration with plymouth (Fedora)
+Patch16: gdm-2.30.0-plymouth.patch
 # (fc) 2.29.5-1mdv cache ck history (Ubuntu) (GNOME bug #594344)
 Patch20: gdm-2.29.5-cache-ck-history.patch
 # (fc) 2.29.5-1mdv fix loosing keyboard focus (Ubuntu) (GNOME bug #598235)
@@ -30,6 +28,12 @@ Patch25: gdm-2.29.5-gconf-defaults.patch
 Patch26: gdm-2.29.5-improve-greeter-transparency.patch
 # (fc) 2.29.92-3mdv handle dmrc migration better (Mdv bug #58414)
 Patch27: gdm-2.29.92-dmrc-migration.patch
+# (fc) 2.30.0-2mdv ensure X is started on VT7, not VT1 (Ubuntu)
+Patch28: 05_initial_server_on_vt7.patch
+# (fc) 2.30.0-2mdv check for active VT (Ubuntu)
+Patch29: gdm-2.30.0-check-active-vt.patch
+# (fc) 2.30.0-2mdv ensure correct shell is used for GDM Init script
+Patch30: gdm-2.30.0-init-shell.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -86,14 +90,23 @@ reimplementation of xdm, the X Display Manager. Gdm allows you to log
 into your system with the X Window System running and supports running
 several different X sessions on your local machine at the same time.
 
+%package user-switch-applet
+Summary:   GDM User Switcher Panel Applet
+Group:     Graphical desktop/GNOME
+Requires:  gdm >= %{version}-%{release}
+Obsoletes: fast-user-switch-applet
+Provides:  fast-user-switch-applet = %{version}-%{release}
+
+%description user-switch-applet
+The GDM user switcher applet provides a mechanism for changing among
+multiple simulanteous logged in users.
 
 %prep
 %setup -q
 cp data/Init.in data/Default.in
 %patch0 -p1 -b .defaultconf
 %patch2 -p1 -b .fixlinking
-%patch16 -p1 -b .force-active-vt
-%patch17 -p1 -b .save-root-window
+%patch16 -p1 -b .plymouth
 %patch20 -p1 -b .ck-history-cache
 # disabled, cause session warning
 #patch22 -p1 -b .keyboard-focus
@@ -102,6 +115,9 @@ cp data/Init.in data/Default.in
 #%patch13 -p1 -b .welcome
 %patch26 -p1 -b .improve-greeter-transparency
 %patch27 -p1 -b .dmrc-migration
+%patch28 -p1 -b .vt7
+%patch29 -p1 -b .active-vt
+%patch30 -p1 -b .init-shell
 
 libtoolize
 autoreconf
@@ -253,7 +269,6 @@ fi
 %config(noreplace) %{_sysconfdir}/X11/gdm/PostLogin
 %config(noreplace) %{_sysconfdir}/X11/gdm/Init
 %_sysconfdir/gconf/schemas/gdm-simple-greeter.schemas
-%_libdir/bonobo/servers/*.server
 %_libexecdir/gdm-crash-logger
 %_libexecdir/gdm-factory-slave
 %_libexecdir/gdm-host-chooser
@@ -262,13 +277,11 @@ fi
 %_libexecdir/gdm-simple-chooser
 %_libexecdir/gdm-simple-greeter
 %_libexecdir/gdm-simple-slave
-%_libexecdir/gdm-user-switch-applet
 %_libexecdir/gdm-xdmcp-chooser-slave
 %{_datadir}/pixmaps/*
 %{_datadir}/gdm
 %dir %{_datadir}/omf/%name
 %{_datadir}/omf/%name/%name-C.omf
-%_datadir/gnome-2.0/ui/*
 %{_datadir}/PolicyKit/policy/*
 %dir %{_datadir}/hosts
 %dir %{_localstatedir}/spool/gdm
@@ -284,3 +297,9 @@ fi
 
 %dir %{_var}/log/gdm
 %_datadir/icons/hicolor/*/apps/gdm*
+
+%files user-switch-applet
+%defattr(-, root, root)
+%{_libexecdir}/gdm-user-switch-applet
+%{_libdir}/bonobo/servers/GNOME_FastUserSwitchApplet.server
+%{_datadir}/gnome-2.0/ui/GNOME_FastUserSwitchApplet.xml
