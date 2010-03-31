@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.0
-Release: %mkrel 2
+Release: %mkrel 3
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -34,6 +34,8 @@ Patch28: 05_initial_server_on_vt7.patch
 Patch29: gdm-2.30.0-check-active-vt.patch
 # (fc) 2.30.0-2mdv ensure correct shell is used for GDM Init script
 Patch30: gdm-2.30.0-init-shell.patch
+# (fc) 2.30.0-3mdv do not restart autologin after logout (GNOME bug #587606)
+Patch31: gdm-autologin-once.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -50,7 +52,7 @@ Requires: sessreg
 Requires: usermode
 Requires: cdialog
 Requires: zenity
-Requires: gnome-session
+Requires: gnome-session-bin
 # for XFdrake on failsafe fallback:
 Requires: drakx-kbd-mouse-x11
 Requires: xinitrc >= 2.4.14
@@ -118,6 +120,7 @@ cp data/Init.in data/Default.in
 %patch28 -p1 -b .vt7
 %patch29 -p1 -b .active-vt
 %patch30 -p1 -b .init-shell
+%patch31 -p1 -b .autologin-once
 
 libtoolize
 autoreconf
