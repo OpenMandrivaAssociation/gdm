@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.0
-Release: %mkrel 3
+Release: %mkrel 4
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -36,6 +36,8 @@ Patch29: gdm-2.30.0-check-active-vt.patch
 Patch30: gdm-2.30.0-init-shell.patch
 # (fc) 2.30.0-3mdv do not restart autologin after logout (GNOME bug #587606)
 Patch31: gdm-autologin-once.patch
+# (fc) 2.30.0-3mdv ensure Init/Default is started before autologin
+Patch32: gdm-2.30.0-init-before-autologin.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -53,12 +55,11 @@ Requires: usermode
 Requires: cdialog
 Requires: zenity
 Requires: gnome-session-bin
+#Requires: gnome-settings-daemon
+#Requires: metacity
 # for XFdrake on failsafe fallback:
 Requires: drakx-kbd-mouse-x11
 Requires: xinitrc >= 2.4.14
-Requires: openssh-clients
-Requires: openssh-askpass-gnome
-Requires: x11-server-xephyr
 Requires: polkit-gnome
 Provides: gdm-Xnest
 Obsoletes: gdm-Xnest
@@ -66,7 +67,6 @@ Obsoletes: gdm-Xnest
 #Requires: menu-messages
 #BuildRequires: X11-static-devel
 BuildRequires: x11-server-xorg
-#BuildRequires: x11-server-xephyr
 BuildRequires: gettext
 #BuildRequires: libglade2.0-devel
 #BuildRequires: libgnomeui2-devel
@@ -121,6 +121,7 @@ cp data/Init.in data/Default.in
 %patch29 -p1 -b .active-vt
 %patch30 -p1 -b .init-shell
 %patch31 -p1 -b .autologin-once
+%patch32 -p1 -b .init-before-autologin
 
 libtoolize
 autoreconf
