@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.0
-Release: %mkrel 4
+Release: %mkrel 5
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -32,12 +32,12 @@ Patch27: gdm-2.29.92-dmrc-migration.patch
 Patch28: 05_initial_server_on_vt7.patch
 # (fc) 2.30.0-2mdv check for active VT (Ubuntu)
 Patch29: gdm-2.30.0-check-active-vt.patch
-# (fc) 2.30.0-2mdv ensure correct shell is used for GDM Init script
-Patch30: gdm-2.30.0-init-shell.patch
 # (fc) 2.30.0-3mdv do not restart autologin after logout (GNOME bug #587606)
 Patch31: gdm-autologin-once.patch
 # (fc) 2.30.0-3mdv ensure Init/Default is started before autologin
 Patch32: gdm-2.30.0-init-before-autologin.patch
+# (fc) 2.30.0-4mdv run Init scripts as root
+Patch33: gdm-2.30.0-init-as-root.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -119,9 +119,9 @@ cp data/Init.in data/Default.in
 %patch27 -p1 -b .dmrc-migration
 %patch28 -p1 -b .vt7
 %patch29 -p1 -b .active-vt
-%patch30 -p1 -b .init-shell
 %patch31 -p1 -b .autologin-once
 %patch32 -p1 -b .init-before-autologin
+%patch33 -p1 -b .init-as-root
 
 libtoolize
 autoreconf
