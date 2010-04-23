@@ -1,12 +1,14 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.0
-Release: %mkrel 6
+Release: %mkrel 7
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/gdm/%{name}-%{version}.tar.bz2
 Source1: %gconf-tree.xml
+Source2: box.png
+Source3: bottom-panel-image.png
 Source6: 90-grant-audio-devices-to-gdm.fdi
 
 # (fc) 2.2.2.1-1mdk change default configuration
@@ -144,15 +146,10 @@ rm -rf $RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{_sysconfdir}/X11/PreSession/Default
 rm -f $RPM_BUILD_ROOT%{_sysconfdir}/X11/PostSession/Default
 
+install -m644 %{SOURCE2} %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/gdm
+
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/hosts
-
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/gdm/themes/mdv-nolist
-ln -f -s ../../../mdk/dm/GdmGreeterTheme-nolist.desktop $RPM_BUILD_ROOT%{_datadir}/gdm/themes/mdv-nolist/GdmGreeterTheme.desktop
-for i in disconnect.png languages.png sessions.png system.png mdk-gdm-nolist.xml screenshot-gdm-nolist.png ; do
- ln -f -s ../../../mdk/dm/$i $RPM_BUILD_ROOT%{_datadir}/gdm/themes/mdv-nolist/
-done
-
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
 install -m644 %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
