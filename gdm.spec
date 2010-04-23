@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.0
-Release: %mkrel 5
+Release: %mkrel 6
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -24,7 +24,7 @@ Patch22: gdm-2.29.5-keyboard-focus.patch
 Patch23: gdm-disable-fatal-warnings.patch
 # (fc) 2.29.5-1mdv add gconf defaults directory (Ubuntu)
 Patch25: gdm-2.29.5-gconf-defaults.patch
-# (fc) 2.29.5-1mdv improve greeter transparency
+# (fc) 2.29.5-1mdv improve greeter transparency (based on OpenSolaris)
 Patch26: gdm-2.29.5-improve-greeter-transparency.patch
 # (fc) 2.29.92-3mdv handle dmrc migration better (Mdv bug #58414)
 Patch27: gdm-2.29.92-dmrc-migration.patch
@@ -180,26 +180,9 @@ rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/X11/gdm/PostLogin/Default.sample \
 %_pre_useradd gdm %{_var}/lib/gdm /bin/false
 %_pre_groupadd xgrp gdm
 
-%triggerpostun -- gdm < 2.8.0.0-2mdk
-if [ -d %{_datadir}/gdm/themes/mdk.to_remove ]; then 
-  rm -fr %{_datadir}/gdm/themes/mdk.to_remove
-  ln -s -f ../../mdk/dm %{_datadir}/gdm/themes/mdk
-fi
-#replace changed paths in gdm.conf
-sed -i -e "s^%_bindir/\(gdm[^ \t]\+\)^%_libexecdir/\1^g"  %{_sysconfdir}/X11/gdm/gdm.conf
-
 %post
 %define schemas gdm-simple-greeter
 %post_install_gconf_schemas %schemas
-#needed to update old gdm without removing new theme
-#is removed by triggerpostun
-if [ "$1" = "2" -a ! -L %{_datadir}/gdm/themes/mdk ]; then 
- mv %{_datadir}/gdm/themes/mdk  %{_datadir}/gdm/themes/mdk.to_remove
-else 
- if [ ! -L %{_datadir}/gdm/themes/mdk ]; then
-  ln -s -f ../../mdk/dm %{_datadir}/gdm/themes/mdk
- fi
-fi
 
 if [ -f /%{_sysconfdir}/X11/xdm/Xsession -a ! -x /%{_sysconfdir}/X11/xdm/Xsession ]; then
 	chmod +x /%{_sysconfdir}/X11/xdm/Xsession
@@ -210,34 +193,11 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 /sbin/ldconfig
 %endif
 %update_scrollkeeper
-# Attempt to restart GDM softly by use of the fifo.  Wont work on older
-# then 2.2.3.1 versions but should work nicely on later upgrades.
-# FIXME: this is just way too complex
-FIFOFILE=`grep '^ServAuthDir=' %{_sysconfdir}/X11/gdm/custom.conf | sed -e 's/^ServAuthDir=//'`
-if test x$FIFOFILE = x ; then
-        FIFOFILE=%{_var}/lib/gdm/.gdmfifo
-else
-        FIFOFILE="$FIFOFILE"/.gdmfifo
-fi
-PIDFILE=`grep '^PidFile=' %{_sysconfdir}/X11/gdm/custom.conf | sed -e 's/^PidFile=//'`
-if test x$PIDFILE = x ; then
-        PIDFILE=/var/run/gdm.pid
-fi
-if test -w $FIFOFILE ; then
-        if test -f $PIDFILE ; then
-                if kill -0 `cat $PIDFILE` 2> /dev/null ; then
-                        (echo;echo SOFT_RESTART) >> $FIFOFILE
-                fi
-        fi
-fi
-# ignore error in the above
-exit 0
+%{_sbindir}/gdm-safe-restart >/dev/null 2>&1 || :
+
 
 %preun
 %preun_uninstall_gconf_schemas %schemas
-if [ "$1" = "0" ]; then
- rm -f %{_datadir}/gdm/themes/mdk > /dev/null
-fi
 
 %postun
 %{make_session}
