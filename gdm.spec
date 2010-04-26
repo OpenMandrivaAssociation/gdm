@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.0
-Release: %mkrel 8
+Release: %mkrel 9
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -14,8 +14,6 @@ Source6: 90-grant-audio-devices-to-gdm.fdi
 # (fc) 2.2.2.1-1mdk change default configuration
 Patch0: gdm-2.29.5-defaultconf.patch
 Patch2: gdm-2.22.0-fix-linking.patch
-# (fc) 2.20.4-3mdv grab translation from gtk+mdk for "Welcome to %n" until upstream has enough translations
-Patch13: gdm-2.20.4-welcome.patch
 # (fc) 2.28.0-1mdv Smooth integration with plymouth (Fedora)
 Patch16: gdm-2.30.0-plymouth.patch
 # (fc) 2.29.5-1mdv cache ck history (Ubuntu) (GNOME bug #594344)
@@ -40,6 +38,8 @@ Patch31: gdm-autologin-once.patch
 Patch32: gdm-2.30.0-init-before-autologin.patch
 # (fc) 2.30.0-4mdv run Init scripts as root
 Patch33: gdm-2.30.0-init-as-root.patch
+# (fc) 2.30.0-9mdv fix locale-archive path (Mdv bug #58507)
+Patch34: gdm-2.30.0-fix-locale-archive-path.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -119,7 +119,6 @@ cp data/Init.in data/Default.in
 #patch22 -p1 -b .keyboard-focus
 %patch23 -p1 -b .disable-fatal-warnings
 %patch25 -p1 -b .gconf-defaults
-#%patch13 -p1 -b .welcome
 %patch26 -p1 -b .improve-greeter-transparency
 %patch27 -p1 -b .dmrc-migration
 %patch28 -p1 -b .vt7
@@ -127,6 +126,7 @@ cp data/Init.in data/Default.in
 %patch31 -p1 -b .autologin-once
 %patch32 -p1 -b .init-before-autologin
 %patch33 -p1 -b .init-as-root
+%patch34 -p1 -b .locale-archive
 
 libtoolize
 autoreconf
