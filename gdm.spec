@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.30.0
-Release: %mkrel 9
+Version: 2.30.2
+Release: %mkrel 1
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -9,7 +9,6 @@ Source0: ftp://ftp.gnome.org/pub/GNOME/sources/gdm/%{name}-%{version}.tar.bz2
 Source1: %gconf-tree.xml
 Source2: box.png
 Source3: bottom-panel-image.png
-Source6: 90-grant-audio-devices-to-gdm.fdi
 
 # (fc) 2.2.2.1-1mdk change default configuration
 Patch0: gdm-2.29.5-defaultconf.patch
@@ -25,7 +24,7 @@ Patch23: gdm-disable-fatal-warnings.patch
 # (fc) 2.29.5-1mdv add gconf defaults directory (Ubuntu)
 Patch25: gdm-2.29.5-gconf-defaults.patch
 # (fc) 2.29.5-1mdv improve greeter transparency (based on OpenSolaris)
-Patch26: gdm-2.29.5-improve-greeter-transparency.patch
+Patch26: gdm-2.30.1-improve-greeter-transparency.patch
 # (fc) 2.29.92-3mdv handle dmrc migration better (Mdv bug #58414)
 Patch27: gdm-2.29.92-dmrc-migration.patch
 # (fc) 2.30.0-2mdv ensure X is started on VT7, not VT1 (Ubuntu)
@@ -34,12 +33,24 @@ Patch28: 05_initial_server_on_vt7.patch
 Patch29: gdm-2.30.0-check-active-vt.patch
 # (fc) 2.30.0-3mdv do not restart autologin after logout (GNOME bug #587606)
 Patch31: gdm-autologin-once.patch
-# (fc) 2.30.0-3mdv ensure Init/Default is started before autologin
-Patch32: gdm-2.30.0-init-before-autologin.patch
 # (fc) 2.30.0-4mdv run Init scripts as root
 Patch33: gdm-2.30.0-init-as-root.patch
 # (fc) 2.30.0-9mdv fix locale-archive path (Mdv bug #58507)
 Patch34: gdm-2.30.0-fix-locale-archive-path.patch
+# (fc) 2.30.2-1mdv fix pam modules (Mdv bug #58459)
+Patch35: gdm-2.30.0-fix-pam.patch
+# (fc) 2.30.2-1mdv fix notification location (Fedora)
+Patch36: gdm-2.30.2-notification-location.patch
+# (fc) 2.30.2-1mdv fix tray padding (Fedore)
+Patch37: gdm-2.30.2-tray-padding.patch
+# (fc) 2.30.2-1mdv add policykit support to GDM settings D-Bus interface (GNOME bug #587750) (Ubuntu)
+Patch38: 08_use_polkit_for_settings.patch
+# (fc) 2.30.2-1mdv add more settings configurable for GDM (GNOME bug #587750) (Ubuntu)
+Patch39: 09_gdmserver_gconf_settings.patch
+# (fc) 2.30.2-1mdv add gdmsetup program (GNOME bug #587750) (Ubuntu)
+Patch40: 09_gdmsetup.patch
+# (fc) 2.30.2-1mdv group xkb layout (GNOME bug #613681)
+Patch41: 33-multi-keyboard-layouts.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -68,13 +79,8 @@ Obsoletes: gdm-Xnest
 
 Conflicts: gdm-themes
 Conflicts: gdm-220
-#needed by patch13
-#Requires: menu-messages
-#BuildRequires: X11-static-devel
 BuildRequires: x11-server-xorg
 BuildRequires: gettext
-#BuildRequires: libglade2.0-devel
-#BuildRequires: libgnomeui2-devel
 BuildRequires: pam-devel
 #BuildRequires: usermode
 BuildRequires: rarian
@@ -124,9 +130,15 @@ cp data/Init.in data/Default.in
 %patch28 -p1 -b .vt7
 %patch29 -p1 -b .active-vt
 %patch31 -p1 -b .autologin-once
-%patch32 -p1 -b .init-before-autologin
 %patch33 -p1 -b .init-as-root
 %patch34 -p1 -b .locale-archive
+%patch35 -p1 -b .fix-pam
+%patch36 -p1 -b .notification-location
+%patch37 -p1 -b .tray-padding
+%patch38 -p1 -b .polkit-for-settings
+%patch39 -p1 -b .gdmserver-gconf-settings
+%patch40 -p1 -b .gdmsetup
+%patch41 -p1 -b .multi-keyboard-layout
 
 libtoolize
 autoreconf
@@ -154,8 +166,6 @@ install -m644 %{SOURCE2} %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/gdm
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/hosts
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
-install -m644 %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/PolicyKit/policy
 
 %{find_lang} %{name} --with-gnome --all-name
 
@@ -215,6 +225,8 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %_sysconfdir/dbus-1/system.d/gdm.conf
 %{_bindir}/gdm-screenshot
 %{_bindir}/gdmflexiserver
+%{_bindir}/gdmsetup
+
 %{_sbindir}/gdm
 %{_sbindir}/gdm-binary
 %{_sbindir}/gdm-restart
@@ -244,9 +256,10 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %_libexecdir/gdm-xdmcp-chooser-slave
 %{_datadir}/pixmaps/*
 %{_datadir}/gdm
+%{_datadir}/applications/gdmsetup.desktop
 %dir %{_datadir}/omf/%name
 %{_datadir}/omf/%name/%name-C.omf
-%{_datadir}/PolicyKit/policy/*
+%{_datadir}/polkit-1/actions/gdm.policy
 %dir %{_datadir}/hosts
 %dir %{_localstatedir}/spool/gdm
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
