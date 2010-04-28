@@ -44,7 +44,7 @@ Patch36: gdm-2.30.2-notification-location.patch
 # (fc) 2.30.2-1mdv fix tray padding (Fedore)
 Patch37: gdm-2.30.2-tray-padding.patch
 # (fc) 2.30.2-1mdv add policykit support to GDM settings D-Bus interface (GNOME bug #587750) (Ubuntu)
-Patch38: 08_use_polkit_for_settings.patch
+Patch38: gdm-2.30.2-use-polkit-for-settings.patch
 # (fc) 2.30.2-1mdv add more settings configurable for GDM (GNOME bug #587750) (Ubuntu)
 Patch39: 09_gdmserver_gconf_settings.patch
 # (fc) 2.30.2-1mdv add gdmsetup program (GNOME bug #587750) (Ubuntu)
@@ -96,6 +96,7 @@ BuildRequires: libpanel-applet-2-devel
 BuildRequires: libxklavier-devel
 Buildrequires: UPower-devel
 BuildRequires: libcheck-devel
+BuildRequires: polkit-1-devel
 
 %description
 Gdm (the GNOME Display Manager) is a highly configurable
@@ -226,7 +227,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_bindir}/gdm-screenshot
 %{_bindir}/gdmflexiserver
 %{_bindir}/gdmsetup
-
 %{_sbindir}/gdm
 %{_sbindir}/gdm-binary
 %{_sbindir}/gdm-restart
