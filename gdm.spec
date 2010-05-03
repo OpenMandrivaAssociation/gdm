@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.2
-Release: %mkrel 3
+Release: %mkrel 4
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -81,7 +81,7 @@ Requires: polkit-gnome
 Provides: gdm-Xnest
 Obsoletes: gdm-Xnest
 
-Conflicts: gdm-themes
+Obsoletes: gdm-themes
 Conflicts: gdm-220
 BuildRequires: x11-server-xorg
 BuildRequires: gettext
