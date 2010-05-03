@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.2
-Release: %mkrel 2
+Release: %mkrel 3
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -53,6 +53,8 @@ Patch40: 09_gdmsetup.patch
 Patch41: 33-multi-keyboard-layouts.patch
 # (fc) 2.30.2-2mdv do not convert keyboard layout description to UTF-8 twice (GNOME bug 617108)
 Patch42: gdm-2.30.2-keyboard-layout-utf8.patch
+# (fc) 2.30.2-3mdv fix default session (Mdv bug #58501)
+Patch43: gdm-2.30.2-fix-default-session.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -143,6 +145,7 @@ cp data/Init.in data/Default.in
 %patch40 -p1 -b .gdmsetup
 %patch41 -p1 -b .multi-keyboard-layout
 %patch42 -p1 -b .keyboard-layout-utf8
+%patch43 -p1 -b .fix-default-session
 
 libtoolize
 autoreconf
