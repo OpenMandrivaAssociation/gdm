@@ -55,6 +55,8 @@ Patch41: 33-multi-keyboard-layouts.patch
 Patch42: gdm-2.30.2-keyboard-layout-utf8.patch
 # (fc) 2.30.2-3mdv fix default session (Mdv bug #58501)
 Patch43: gdm-2.30.2-fix-default-session.patch
+# (fc) 2.30.2-7mdv allow to set default session with gdmsetup (GNOME bug #594733) (Ubuntu)
+Patch44: gdm-2.30.2-default-session-gdmsetup.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -147,6 +149,7 @@ cp data/Init.in data/Default.in
 %patch41 -p1 -b .multi-keyboard-layout
 %patch42 -p1 -b .keyboard-layout-utf8
 %patch43 -p1 -b .fix-default-session
+%patch44 -p1 -b .default-session-gdmsetup
 
 libtoolize
 autoreconf
@@ -261,6 +264,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %_libexecdir/gdm-simple-greeter
 %_libexecdir/gdm-simple-slave
 %_libexecdir/gdm-xdmcp-chooser-slave
+%_libexecdir/gdm-set-default-session
 %{_datadir}/pixmaps/*
 %{_datadir}/gdm
 %{_datadir}/applications/gdmsetup.desktop
