@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.2
-Release: %mkrel 7
+Release: %mkrel 8
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -57,6 +57,8 @@ Patch42: gdm-2.30.2-keyboard-layout-utf8.patch
 Patch43: gdm-2.30.2-fix-default-session.patch
 # (fc) 2.30.2-7mdv allow to set default session with gdmsetup (GNOME bug #594733) (Ubuntu)
 Patch44: gdm-2.30.2-default-session-gdmsetup.patch
+# (fc) 2.30.2-8mdv save space on low resolutions screen (SUSE)
+Patch45: gdm-save-panel-space-on-low-resolutions.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -150,6 +152,7 @@ cp data/Init.in data/Default.in
 %patch42 -p1 -b .keyboard-layout-utf8
 %patch43 -p1 -b .fix-default-session
 %patch44 -p1 -b .default-session-gdmsetup
+%patch45 -p1 -b .low-resolution-screen
 
 libtoolize
 autoreconf
