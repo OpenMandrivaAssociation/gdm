@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.2
-Release: %mkrel 9
+Release: %mkrel 10
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -152,7 +152,8 @@ cp data/Init.in data/Default.in
 %patch38 -p1 -b .polkit-for-settings
 %patch39 -p1 -b .gdmserver-gconf-settings
 %patch40 -p1 -b .gdmsetup
-%patch41 -p1 -b .multi-keyboard-layout
+#do not apply, cause crashes with some keyboard layout, see upstream bug
+#patch41 -p1 -b .multi-keyboard-layout
 %patch42 -p1 -b .keyboard-layout-utf8
 %patch43 -p1 -b .fix-default-session
 %patch44 -p1 -b .default-session-gdmsetup
