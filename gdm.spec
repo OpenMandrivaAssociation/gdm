@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.2
-Release: %mkrel 10
+Release: %mkrel 11
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -63,6 +63,8 @@ Patch45: gdm-save-panel-space-on-low-resolutions.patch
 Patch46: gdm-look-at-runlevel.patch
 # (fc) 2.30.2-9mdv fix fd leaks (GNOME bug #617661) (GIT)
 Patch47: gdm-2.30.2-fix-fdleaks.patch
+# (fc) 2.30.2-11mdv various bug fixes from GIT
+Patch48: gdm-2.30.2-gitfixes.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -160,6 +162,7 @@ cp data/Init.in data/Default.in
 %patch45 -p1 -b .low-resolution-screen
 %patch46 -p1 -b .look-at-runlevel
 %patch47 -p1 -b .fdleaks
+%patch48 -p1 -b .gitfixes
 
 libtoolize
 autoreconf
