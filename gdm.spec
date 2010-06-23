@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 2.30.2
-Release: %mkrel 11
+Release: %mkrel 12
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -65,6 +65,8 @@ Patch46: gdm-look-at-runlevel.patch
 Patch47: gdm-2.30.2-fix-fdleaks.patch
 # (fc) 2.30.2-11mdv various bug fixes from GIT
 Patch48: gdm-2.30.2-gitfixes.patch
+# (fc) 2.30.2-12mdv fix default icon (idea from GIT)
+Patch49: gdm-2.30.2-fix-default-icon.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -163,6 +165,7 @@ cp data/Init.in data/Default.in
 %patch46 -p1 -b .look-at-runlevel
 %patch47 -p1 -b .fdleaks
 %patch48 -p1 -b .gitfixes
+%patch49 -p1 -b .fix-default-icon
 
 libtoolize
 autoreconf
