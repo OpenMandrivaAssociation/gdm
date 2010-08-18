@@ -1,7 +1,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.30.2
-Release: %mkrel 12
+Version: 2.31.90
+Release: %mkrel 1
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -9,22 +9,24 @@ Source0: ftp://ftp.gnome.org/pub/GNOME/sources/gdm/%{name}-%{version}.tar.bz2
 Source1: %gconf-tree.xml
 Source2: box.png
 Source3: bottom-panel-image.png
-
+#gw are these scripts still needed? Ubuntu has dropped them 
+#(replaced  by upstart?)
+Source4: gdm-restart
+Source5: gdm-safe-restart 
+Source6: gdm-stop
 # (fc) 2.2.2.1-1mdk change default configuration
 Patch0: gdm-2.29.5-defaultconf.patch
 Patch2: gdm-2.22.0-fix-linking.patch
 # (fc) 2.28.0-1mdv Smooth integration with plymouth (Fedora)
-Patch16: gdm-2.30.0-plymouth.patch
-# (fc) 2.29.5-1mdv cache ck history (Ubuntu) (GNOME bug #594344)
-Patch20: gdm-2.29.5-cache-ck-history.patch
+Patch16: gdm-2.30.3-plymouth.patch
 # (fc) 2.29.5-1mdv fix loosing keyboard focus (Ubuntu) (GNOME bug #598235)
 Patch22: gdm-2.29.5-keyboard-focus.patch
 # (fc) 2.29.5-1mdv disable fatal warnings (Ubuntu)
 Patch23: gdm-disable-fatal-warnings.patch
 # (fc) 2.29.5-1mdv add gconf defaults directory (Ubuntu)
-Patch25: gdm-2.29.5-gconf-defaults.patch
+Patch25: gdm-2.31.1-gconf-defaults.patch
 # (fc) 2.29.5-1mdv improve greeter transparency (based on OpenSolaris)
-Patch26: gdm-2.30.1-improve-greeter-transparency.patch
+Patch26: gdm-2.30.3-improve-greeter-transparency.patch
 # (fc) 2.29.92-3mdv handle dmrc migration better (Mdv bug #58414)
 Patch27: gdm-2.29.92-dmrc-migration.patch
 # (fc) 2.30.0-2mdv ensure X is started on VT7, not VT1 (Ubuntu)
@@ -36,7 +38,7 @@ Patch31: gdm-autologin-once.patch
 # (fc) 2.30.0-4mdv run Init scripts as root
 Patch33: gdm-2.30.0-init-as-root.patch
 # (fc) 2.30.0-9mdv fix locale-archive path (Mdv bug #58507)
-Patch34: gdm-2.30.0-fix-locale-archive-path.patch
+Patch34: gdm-2.31.90-fix-locale-archive-path.patch
 # (fc) 2.30.2-1mdv fix pam modules (Mdv bug #58459)
 Patch35: gdm-2.30.0-fix-pam.patch
 # (fc) 2.30.2-1mdv fix notification location (Fedora)
@@ -44,29 +46,19 @@ Patch36: gdm-2.30.2-notification-location.patch
 # (fc) 2.30.2-1mdv fix tray padding (Fedore)
 Patch37: gdm-2.30.2-tray-padding.patch
 # (fc) 2.30.2-1mdv add policykit support to GDM settings D-Bus interface (GNOME bug #587750) (Ubuntu)
-Patch38: gdm-2.30.2-use-polkit-for-settings.patch
+Patch38: gdm-2.31.1-use-polkit-for-settings.patch
 # (fc) 2.30.2-1mdv add more settings configurable for GDM (GNOME bug #587750) (Ubuntu)
 Patch39: 09_gdmserver_gconf_settings.patch
 # (fc) 2.30.2-1mdv add gdmsetup program (GNOME bug #587750) (Ubuntu)
 Patch40: 09_gdmsetup.patch
 # (fc) 2.30.2-1mdv group xkb layout (GNOME bug #613681)
 Patch41: 33-multi-keyboard-layouts.patch
-# (fc) 2.30.2-2mdv do not convert keyboard layout description to UTF-8 twice (GNOME bug 617108)
-Patch42: gdm-2.30.2-keyboard-layout-utf8.patch
-# (fc) 2.30.2-3mdv fix default session (Mdv bug #58501)
-Patch43: gdm-2.30.2-fix-default-session.patch
 # (fc) 2.30.2-7mdv allow to set default session with gdmsetup (GNOME bug #594733) (Ubuntu)
-Patch44: gdm-2.30.2-default-session-gdmsetup.patch
+Patch44: gdm-2.30.4-default-session-gdmsetup.patch
 # (fc) 2.30.2-8mdv save space on low resolutions screen (SUSE)
 Patch45: gdm-save-panel-space-on-low-resolutions.patch
 # (fc) 2.30.2-9mdv don't try to manage screen if runlevel is 0 or 6 (SUSE)
 Patch46: gdm-look-at-runlevel.patch
-# (fc) 2.30.2-9mdv fix fd leaks (GNOME bug #617661) (GIT)
-Patch47: gdm-2.30.2-fix-fdleaks.patch
-# (fc) 2.30.2-11mdv various bug fixes from GIT
-Patch48: gdm-2.30.2-gitfixes.patch
-# (fc) 2.30.2-12mdv fix default icon (idea from GIT)
-Patch49: gdm-2.30.2-fix-default-icon.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -114,6 +106,7 @@ BuildRequires: libxklavier-devel
 Buildrequires: UPower-devel
 BuildRequires: libcheck-devel
 BuildRequires: polkit-1-devel
+BuildRequires: libGConf2-devel >= 2.31.3
 
 %description
 Gdm (the GNOME Display Manager) is a highly configurable
@@ -138,7 +131,6 @@ cp data/Init.in data/Default.in
 %patch0 -p1 -b .defaultconf
 %patch2 -p1 -b .fixlinking
 %patch16 -p1 -b .plymouth
-%patch20 -p1 -b .ck-history-cache
 # disabled, cause session warning
 #patch22 -p1 -b .keyboard-focus
 %patch23 -p1 -b .disable-fatal-warnings
@@ -158,14 +150,9 @@ cp data/Init.in data/Default.in
 %patch40 -p1 -b .gdmsetup
 #do not apply, cause crashes with some keyboard layout, see upstream bug
 #patch41 -p1 -b .multi-keyboard-layout
-%patch42 -p1 -b .keyboard-layout-utf8
-%patch43 -p1 -b .fix-default-session
 %patch44 -p1 -b .default-session-gdmsetup
 %patch45 -p1 -b .low-resolution-screen
 %patch46 -p1 -b .look-at-runlevel
-%patch47 -p1 -b .fdleaks
-%patch48 -p1 -b .gitfixes
-%patch49 -p1 -b .fix-default-icon
 
 libtoolize
 autoreconf
@@ -205,6 +192,8 @@ mkdir -p $RPM_BUILD_ROOT%{_var}/log/gdm $RPM_BUILD_ROOT%{_sysconfdir}/X11/dm/Ses
 
 mkdir -p $RPM_BUILD_ROOT%{_var}/lib/gdm/.gconf.defaults
 install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_var}/lib/gdm/.gconf.defaults
+
+install -m755 %{SOURCE4} %{SOURCE5} %{SOURCE6} %buildroot%_sbindir
 
 #remove unpackaged files
 rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/X11/gdm/PostLogin/Default.sample \
