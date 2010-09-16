@@ -1,6 +1,6 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.31.90
+Version: 2.31.92
 Release: %mkrel 1
 License: GPLv2+
 Group: Graphical desktop/GNOME
@@ -207,8 +207,6 @@ rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/X11/gdm/PostLogin/Default.sample \
 %_pre_groupadd xgrp gdm
 
 %post
-%define schemas gdm-simple-greeter
-%post_install_gconf_schemas %schemas
 
 if [ -f /%{_sysconfdir}/X11/xdm/Xsession -a ! -x /%{_sysconfdir}/X11/xdm/Xsession ]; then
 	chmod +x /%{_sysconfdir}/X11/xdm/Xsession
@@ -221,9 +219,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %update_scrollkeeper
 %{_sbindir}/gdm-safe-restart >/dev/null 2>&1 || :
 
-
-%preun
-%preun_uninstall_gconf_schemas %schemas
 
 %postun
 %{make_session}
@@ -248,7 +243,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_sbindir}/gdm-safe-restart
 %{_sbindir}/gdm-stop
 %dir %{_sysconfdir}/X11/gdm
-%config(noreplace) %{_sysconfdir}/X11/gdm/gdm.schemas
 %config(noreplace) %{_sysconfdir}/pam.d/gdm
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-autologin
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
