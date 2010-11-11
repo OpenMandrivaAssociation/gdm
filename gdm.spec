@@ -100,7 +100,7 @@ BuildRequires: intltool
 BuildRequires: libwrap-devel
 BuildRequires: libaudit-devel
 #BuildRequires: zenity
-BuildRequires: libcanberra-devel
+BuildRequires: libcanberra-gtk-devel
 BuildRequires: libpanel-applet-2-devel
 BuildRequires: libxklavier-devel
 Buildrequires: UPower-devel
