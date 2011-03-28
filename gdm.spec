@@ -1,6 +1,6 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.32.0
+Version: 2.32.1
 Release: %mkrel 1
 License: GPLv2+
 Group: Graphical desktop/GNOME
@@ -18,7 +18,7 @@ Source6: gdm-stop
 Patch0: gdm-2.29.5-defaultconf.patch
 Patch2: gdm-2.22.0-fix-linking.patch
 # (fc) 2.28.0-1mdv Smooth integration with plymouth (Fedora)
-Patch16: gdm-2.30.3-plymouth.patch
+Patch16: gdm-2.32.1-plymouth.patch
 # (fc) 2.29.5-1mdv fix loosing keyboard focus (Ubuntu) (GNOME bug #598235)
 Patch22: gdm-2.29.5-keyboard-focus.patch
 # (fc) 2.29.5-1mdv disable fatal warnings (Ubuntu)
