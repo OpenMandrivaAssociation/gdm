@@ -1,11 +1,11 @@
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 2.32.1
-Release: %mkrel 3
+Version: 2.32.2
+Release: %mkrel 1
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
-Source0: ftp://ftp.gnome.org/pub/GNOME/sources/gdm/%{name}-%{version}.tar.bz2
+Source0: ftp://ftp.gnome.org/pub/GNOME/sources/gdm/%{name}-%{version}.tar.xz
 Source1: %gconf-tree.xml
 Source2: box.png
 Source3: bottom-panel-image.png
@@ -274,9 +274,9 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %dir %{_localstatedir}/spool/gdm
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
 %attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.mandatory
-%attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.mandatory/*.xml
+%attr(1640, gdm, gdm) %{_localstatedir}/lib/gdm/.gconf.mandatory/*.xml
 %attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.defaults
-%attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.defaults/*.xml
+%attr(1640, gdm, gdm) %{_localstatedir}/lib/gdm/.gconf.defaults/*.xml
 %attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.path
 %attr(1755, gdm, gdm) %dir %{_localstatedir}/run/gdm/greeter
 %attr(1777, root, gdm) %dir %{_localstatedir}/run/gdm
@@ -284,6 +284,10 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 
 %dir %{_var}/log/gdm
 %_datadir/icons/hicolor/*/apps/gdm*
+%attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.local/
+%attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.local/share/
+%attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
+%attr(1640, gdm, gdm) %{_localstatedir}/lib/gdm/.local/share/applications/*.*
 
 %files user-switch-applet
 %defattr(-, root, root)
