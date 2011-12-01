@@ -167,18 +167,18 @@ autoreconf
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %makeinstall_std PAM_PREFIX=%{_sysconfdir} 
 
 # don't provide PreSession/PostSession, pam handle this
-rm -f $RPM_BUILD_ROOT%{_sysconfdir}/X11/PreSession/Default
-rm -f $RPM_BUILD_ROOT%{_sysconfdir}/X11/PostSession/Default
+rm -f %{buildroot}%{_sysconfdir}/X11/PreSession/Default
+rm -f %{buildroot}%{_sysconfdir}/X11/PostSession/Default
 
-install -m644 %{SOURCE2} %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/gdm
+install -m644 %{SOURCE2} %{SOURCE3} %{buildroot}%{_datadir}/gdm
 
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/hosts
+mkdir -p %{buildroot}%{_datadir}/hosts
 
 
 %{find_lang} %{name} --with-gnome --all-name
@@ -188,19 +188,19 @@ echo "%lang($(basename $omf|sed -e s/%name-// -e s/.omf//)) $(echo $omf|sed -e s
 done
 
 
-mkdir -p $RPM_BUILD_ROOT%{_var}/log/gdm $RPM_BUILD_ROOT%{_sysconfdir}/X11/dm/Sessions
+mkdir -p %{buildroot}%{_var}/log/gdm %{buildroot}%{_sysconfdir}/X11/dm/Sessions
 
-mkdir -p $RPM_BUILD_ROOT%{_var}/lib/gdm/.gconf.defaults
-install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_var}/lib/gdm/.gconf.defaults
+mkdir -p %{buildroot}%{_var}/lib/gdm/.gconf.defaults
+install -m644 %{SOURCE1} %{buildroot}%{_var}/lib/gdm/.gconf.defaults
 
 install -m755 %{SOURCE4} %{SOURCE5} %{SOURCE6} %buildroot%_sbindir
 
 #remove unpackaged files
-rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/X11/gdm/PostLogin/Default.sample \
-  $RPM_BUILD_ROOT%{_datadir}/xsessions/gnome.desktop
+rm -rf %{buildroot}%{_sysconfdir}/X11/gdm/PostLogin/Default.sample \
+  %{buildroot}%{_datadir}/xsessions/gnome.desktop
 
 %clean
-[ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+[ -n "%{buildroot}" -a "%{buildroot}" != / ] && rm -rf %{buildroot}
 
 %pre
 %_pre_useradd gdm %{_var}/lib/gdm /bin/false
