@@ -225,7 +225,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
 %attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.config
 %attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.config/dconf
-%attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
 %attr(1755, gdm, gdm) %dir %{_localstatedir}/run/gdm/greeter
 %attr(1777, root, gdm) %dir %{_localstatedir}/run/gdm
 %attr(1755, root, gdm) %dir %{_localstatedir}/cache/gdm
