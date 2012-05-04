@@ -127,6 +127,7 @@ cp data/Init.in data/Default.in
 NOCONFIGURE=yes gnome-autogen.sh
 %configure2_5x \
 	--disable-static \
+	--disable-scrollkeeper \
 	--enable-console-helper  \
 	--with-sysconfsubdir=X11/gdm \
 	--with-dmconfdir=%{_sysconfdir}/X11/dm \
