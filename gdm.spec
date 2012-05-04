@@ -28,8 +28,6 @@ Patch0203:	0203-Mageia-force-active-vt-patch-fix.patch
 Patch0300:	0300-Novell-Make-keyboard-selector-not-neglect-to-apply-t.patch
 Patch0301:	0301-Novell-Look-at-the-current-runlevel-before-managing-.patch
 Patch0302:	0302-Fix-gdm-pam.d-configs.patch
-Patch0303:	0303-Read-.xsetup-scripts.patch
-
 # (tmb) fix gdm to execute .xsetup scripts, otherwise LiveCDs are broken
 Patch400:	gdm-3.2.1.1-init-execute-xsetup-scripts.patch
 
