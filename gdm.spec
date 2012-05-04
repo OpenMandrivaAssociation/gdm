@@ -10,7 +10,7 @@
 
 Summary: The GNOME Display Manager
 Name: gdm
-Version: 3.2.1.1
+Version: 3.4.1
 Release: 1
 License: GPLv2+
 Group: Graphical desktop/GNOME
@@ -27,7 +27,8 @@ Patch0203:	0203-Mageia-force-active-vt-patch-fix.patch
 # git format-patch --start-number 300 mga-3.1.2-plymouth..mga-3.1.2-patches
 Patch0300:	0300-Novell-Make-keyboard-selector-not-neglect-to-apply-t.patch
 Patch0301:	0301-Novell-Look-at-the-current-runlevel-before-managing-.patch
-Patch0302:	0302-Mageia-Fix-gdm-pam.d-file-for-gnome-keyring-integrat.patch
+Patch0302:	0302-Fix-gdm-pam.d-configs.patch
+Patch0303:	0303-Read-.xsetup-scripts.patch
 
 # (tmb) fix gdm to execute .xsetup scripts, otherwise LiveCDs are broken
 Patch400:	gdm-3.2.1.1-init-execute-xsetup-scripts.patch
@@ -60,6 +61,7 @@ Requires: cdialog
 Requires(post): dconf
 # for XFdrake on failsafe fallback:
 Requires: drakx-kbd-mouse-x11
+Requires: gnome-icon-theme-symbolic
 Requires: gnome-session-bin
 Requires: gnome-settings-daemon
 Requires: metacity
@@ -130,7 +132,8 @@ NOCONFIGURE=yes gnome-autogen.sh
 	--enable-console-helper  \
 	--with-sysconfsubdir=X11/gdm \
 	--with-dmconfdir=%{_sysconfdir}/X11/dm \
-	--with-console-kit=yes 
+	--with-console-kit=yes \
+	--without-systemd
 
 %make LIBS='-lgmodule-2.0 -ldbus-glib-1'
 
@@ -160,6 +163,7 @@ rm -rf %{buildroot}%{_sysconfdir}/X11/gdm/PostLogin/Default.sample \
 %_pre_groupadd xgrp gdm
 
 %post
+dconf update
 if [ -f /%{_sysconfdir}/X11/xdm/Xsession -a ! -x /%{_sysconfdir}/X11/xdm/Xsession ]; then
 	chmod +x /%{_sysconfdir}/X11/xdm/Xsession
 fi
@@ -195,7 +199,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/X11/gdm/PostSession
 %config(noreplace) %{_sysconfdir}/X11/gdm/PostLogin
 %config(noreplace) %{_sysconfdir}/X11/gdm/Init
-%{_sysconfdir}/gconf/schemas/gdm-simple-greeter.schemas
 %{_bindir}/gdm-screenshot
 %{_bindir}/gdmflexiserver
 %{_sbindir}/gdm
@@ -221,10 +224,9 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %dir %{_datadir}/hosts
 %dir %{_localstatedir}/spool/gdm
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
-%attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.mandatory
-%attr(1640, gdm, gdm) %{_localstatedir}/lib/gdm/.gconf.mandatory/*.xml
-%attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.defaults
-%attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.gconf.path
+%attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.config
+%attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.config/dconf
+%attr(1640, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
 %attr(1755, gdm, gdm) %dir %{_localstatedir}/run/gdm/greeter
 %attr(1777, root, gdm) %dir %{_localstatedir}/run/gdm
 %attr(1755, root, gdm) %dir %{_localstatedir}/cache/gdm
