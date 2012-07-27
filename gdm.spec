@@ -11,7 +11,7 @@
 Summary: The GNOME Display Manager
 Name: gdm
 Version: 3.4.1
-Release: 1
+Release: 2
 License: GPLv2+
 Group: Graphical desktop/GNOME
 URL: http://www.gnome.org/projects/gdm/
@@ -54,7 +54,10 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xau)
 BuildRequires:	pkgconfig(xdmcp)
 BuildRequires:	pkgconfig(xrandr)
+BuildRequires: pkgconfig(libsystemd-login)
+BuildRequires: pkgconfig(libsystemd-daemon)
 
+Requires: systemd >= 39
 Requires: cdialog
 Requires(post): dconf
 # for XFdrake on failsafe fallback:
@@ -124,15 +127,18 @@ cp data/Init.in data/Default.in
 %apply_patches
 
 %build
-NOCONFIGURE=yes gnome-autogen.sh
+#NOCONFIGURE=yes gnome-autogen.sh
+autoreconf -fi
 %configure2_5x \
 	--disable-static \
 	--disable-scrollkeeper \
 	--enable-console-helper  \
+    --with-systemd \
 	--with-sysconfsubdir=X11/gdm \
 	--with-dmconfdir=%{_sysconfdir}/X11/dm \
-	--with-console-kit=yes \
-	--without-systemd
+	--with-console-kit \
+	--with-pam-prefix=%{_sysconfdir} \
+	--enable-split-authentication
 
 %make LIBS='-lgmodule-2.0 -ldbus-glib-1'
 
