@@ -1,0 +1,29 @@
+From a11dcf7600ab2a1446dcc7a43e51bb150b3d51eb Mon Sep 17 00:00:00 2001
+From: Colin Guthrie <colin@mageia.org>
+Date: Tue, 30 Aug 2011 20:26:17 +0100
+Subject: [PATCH 300/302] Novell: Make keyboard selector not neglect to apply
+ the selected keyboard in some situations.
+
+bnc438159 bgo561771 hpj@novell.com
+---
+ gui/simple-greeter/gdm-option-widget.c |    4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/gui/simple-greeter/gdm-option-widget.c b/gui/simple-greeter/gdm-option-widget.c
+index a905d8a..58e73a6 100644
+--- a/gui/simple-greeter/gdm-option-widget.c
++++ b/gui/simple-greeter/gdm-option-widget.c
+@@ -531,10 +531,6 @@ static void
+ on_changed (GtkComboBox     *combo_box,
+             GdmOptionWidget *widget)
+ {
+-        if (widget->priv->default_item_id == NULL) {
+-                return;
+-        }
+-
+         activate_selected_item (widget);
+ }
+ 
+-- 
+1.7.9.3
+

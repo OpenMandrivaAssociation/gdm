@@ -1,0 +1,25 @@
+From 240cff5aff425def42946b886b58fc176472a254 Mon Sep 17 00:00:00 2001
+From: Colin Guthrie <colin@mageia.org>
+Date: Tue, 30 Aug 2011 20:23:47 +0100
+Subject: [PATCH 203/203] Mageia: force-active-vt patch fix
+
+---
+ data/Makefile.am |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/Makefile.am b/data/Makefile.am
+index eaf2421..24305bb 100644
+--- a/data/Makefile.am
++++ b/data/Makefile.am
+@@ -163,7 +163,7 @@ uninstall-hook:
+ 	$(DESTDIR)$(sysconfdir)/dconf/db/gdm.d \
+ 	$(DESTDIR)$(workingdir)/.config/dconf \
+ 	$(DESTDIR)$(screenshotdir) \
+-	$(DESTDIR)$(xauthdir)
++	$(DESTDIR)$(xauthdir) \
+ 	$(DESTDIR)$(spooldir)
+ 
+ 	-rmdir \
+-- 
+1.7.9.3
+

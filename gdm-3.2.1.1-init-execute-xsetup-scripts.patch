@@ -1,0 +1,31 @@
+
+This patch restores the sourcing/executing of *.xsetup scripts
+in gdm from gdm-2.29.5-defaultconf.patch used in Mageia 1.
+
+Without this atleast Gnome LiveCDs are broken.
+
+Signed-off-by: Thomas Backlund <tmb@mageia.org>
+
+ data/Init.in |   13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+--- gdm-3.2.1.1/data/Init.in.orig	2011-10-19 18:41:52.000000000 +0300
++++ gdm-3.2.1.1/data/Init.in	2011-12-12 16:48:02.187789603 +0200
+@@ -86,4 +86,17 @@ if [ "x$SETXKBMAP" != "x" ] ; then
+   fi
+ fi
+ 
++# NOTE! LiveCDs and other rpms expects xsetup scripts to be executed by gdm
++for i in /etc/X11/xsetup.d/*.xsetup ; do
++    [ -d $i ] && continue
++
++    if [ -x $i ]; then
++	if grep -q "# to be sourced" $i; then
++	    . $i
++	else
++	    $i &
++	fi
++    fi
++done
++
+ exit 0

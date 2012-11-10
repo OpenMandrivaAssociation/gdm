@@ -1,0 +1,73 @@
+From 68474e908a52df268bcd27140fdabe53a4fc483c Mon Sep 17 00:00:00 2001
+From: Colin Guthrie <colin@mageia.org>
+Date: Tue, 30 Aug 2011 20:27:14 +0100
+Subject: [PATCH 301/302] Novell: Look at the current runlevel before managing
+ the display again, so we don't do this when
+ shutting down or rebooting
+
+Mageia Note: This will need rewritten for systemd.
+bnc540482 bgo599180 vuntz@opensuse.org
+---
+ daemon/gdm-static-display.c |   32 +++++++++++++++++++++++++++++---
+ 1 file changed, 29 insertions(+), 3 deletions(-)
+
+diff --git a/daemon/gdm-static-display.c b/daemon/gdm-static-display.c
+index 397f07e..70a962e 100644
+--- a/daemon/gdm-static-display.c
++++ b/daemon/gdm-static-display.c
+@@ -26,6 +26,7 @@
+ #include <fcntl.h>
+ #include <pwd.h>
+ #include <unistd.h>
++#include <utmp.h>
+ #include <string.h>
+ #include <signal.h>
+ #include <sys/stat.h>
+@@ -108,6 +109,29 @@ gdm_static_display_manage (GdmDisplay *display)
+ }
+ 
+ static gboolean
++gdm_static_display_should_manage_again (void)
++{
++        struct utmp *ut;
++
++        setutent();
++        while ((ut = getutent()) != NULL) {
++                if (ut->ut_type == RUN_LVL) {
++                        char current;
++                        current = ut->ut_pid % 256;
++                        endutent();
++
++                        if (current == '0' || current == '6')
++                                return FALSE;
++                        return TRUE;
++                }
++        }
++
++        endutent();
++
++        return TRUE;
++}
++
++static gboolean
+ gdm_static_display_finish (GdmDisplay *display)
+ {
+         int status;
+@@ -120,9 +144,11 @@ gdm_static_display_finish (GdmDisplay *display)
+         /* restart static displays */
+         gdm_display_unmanage (display);
+ 
+-        status = gdm_display_get_status (display);
+-        if (status != GDM_DISPLAY_FAILED) {
+-                gdm_display_manage (display);
++        if (gdm_static_display_should_manage_again ()) {
++                status = gdm_display_get_status (display);
++                if (status != GDM_DISPLAY_FAILED) {
++                        gdm_display_manage (display);
++                }
+         }
+ 
+         return TRUE;
+-- 
+1.7.9.3
+
