@@ -1,18 +1,18 @@
-From 68474e908a52df268bcd27140fdabe53a4fc483c Mon Sep 17 00:00:00 2001
+From d179dc69375d73d10c212c428afb23d7b232c890 Mon Sep 17 00:00:00 2001
 From: Colin Guthrie <colin@mageia.org>
 Date: Tue, 30 Aug 2011 20:27:14 +0100
-Subject: [PATCH 301/302] Novell: Look at the current runlevel before managing
+Subject: [PATCH 301/303] Novell: Look at the current runlevel before managing
  the display again, so we don't do this when
  shutting down or rebooting
 
 Mageia Note: This will need rewritten for systemd.
 bnc540482 bgo599180 vuntz@opensuse.org
 ---
- daemon/gdm-static-display.c |   32 +++++++++++++++++++++++++++++---
+ daemon/gdm-static-display.c | 32 +++++++++++++++++++++++++++++---
  1 file changed, 29 insertions(+), 3 deletions(-)
 
 diff --git a/daemon/gdm-static-display.c b/daemon/gdm-static-display.c
-index 397f07e..70a962e 100644
+index 3065ce6..a61ec1f 100644
 --- a/daemon/gdm-static-display.c
 +++ b/daemon/gdm-static-display.c
 @@ -26,6 +26,7 @@
@@ -23,7 +23,7 @@ index 397f07e..70a962e 100644
  #include <string.h>
  #include <signal.h>
  #include <sys/stat.h>
-@@ -108,6 +109,29 @@ gdm_static_display_manage (GdmDisplay *display)
+@@ -92,6 +93,29 @@ gdm_static_display_manage (GdmDisplay *display)
  }
  
  static gboolean
@@ -53,7 +53,7 @@ index 397f07e..70a962e 100644
  gdm_static_display_finish (GdmDisplay *display)
  {
          int status;
-@@ -120,9 +144,11 @@ gdm_static_display_finish (GdmDisplay *display)
+@@ -104,9 +128,11 @@ gdm_static_display_finish (GdmDisplay *display)
          /* restart static displays */
          gdm_display_unmanage (display);
  
@@ -69,5 +69,5 @@ index 397f07e..70a962e 100644
  
          return TRUE;
 -- 
-1.7.9.3
+1.7.11.4
 
