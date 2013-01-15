@@ -1,0 +1,11 @@
+--- gdm-3.6.2/configure.ac.bero	2013-01-15 21:55:16.921566398 +0100
++++ gdm-3.6.2/configure.ac	2013-01-15 21:55:24.831471415 +0100
+@@ -38,7 +38,7 @@ AC_HEADER_STDC
+ 
+ AC_SUBST(VERSION)
+ 
+-AM_CONFIG_HEADER(config.h)
++AC_CONFIG_HEADERS([config.h])
+ AC_CONFIG_MACRO_DIR([m4])
+ 
+ # Documentation

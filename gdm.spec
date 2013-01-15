@@ -30,6 +30,7 @@ Patch0300:	0300-Novell-Make-keyboard-selector-not-neglect-to-apply-t.patch
 Patch0301:	0301-Novell-Look-at-the-current-runlevel-before-managing-.patch
 Patch0302:	0302-Fix-gdm-pam.d-configs.patch
 Patch0303:	0303-Read-.xsetup-scripts.patch
+Patch0400:	gdm-3.6.2-automake-1.13.patch
 
 Provides:	dm
 
