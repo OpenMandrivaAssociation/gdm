@@ -12,7 +12,7 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	3.6.2
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		http://www.gnome.org/projects/gdm/
@@ -31,6 +31,10 @@ Patch0301:	0301-Novell-Look-at-the-current-runlevel-before-managing-.patch
 Patch0302:	0302-Fix-gdm-pam.d-configs.patch
 Patch0303:	0303-Read-.xsetup-scripts.patch
 Patch0400:	gdm-3.6.2-automake-1.13.patch
+
+# fix problem with login after autologin
+# https://bugzilla.redhat.com/show_bug.cgi?id=881896
+Patch0304:	fix-autologin.patch
 
 Provides:	dm
 
@@ -126,6 +130,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_sbindir}/gdm
 %{_sbindir}/gdm-binary
 %dir %{_sysconfdir}/X11/gdm
+%{_sysconfdir}/gdm
 %config(noreplace) %{_sysconfdir}/pam.d/gdm
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-autologin
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint
@@ -165,7 +170,9 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %attr(1755, gdm, gdm) %dir %{_localstatedir}/run/gdm/greeter
 %attr(1777, root, gdm) %dir %{_localstatedir}/run/gdm
 %attr(1755, root, gdm) %dir %{_localstatedir}/cache/gdm
-%attr(640,gdm,gdm) %{_localstatedir}/lib/gdm/.local
+%attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local
+%attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share
+%attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
 %{_sysconfdir}/dconf/profile/gdm
 %ghost %{_sysconfdir}/dconf/db/%{name}
 %dir %{_sysconfdir}/dconf/db/gdm.d
@@ -287,3 +294,10 @@ ln -s gdm %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 
 # (cg) For ghost ownership
 touch %{buildroot}%{_sysconfdir}/dconf/db/%{name}
+
+pushd %{buildroot}%{_sysconfdir}
+ln -s X11/gdm
+popd
+
+echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm
+echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm-autologin
