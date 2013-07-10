@@ -31,10 +31,6 @@ Patch0301:	0301-Novell-Look-at-the-current-runlevel-before-managing-.patch
 Patch0302:	0302-Fix-gdm-pam.d-configs.patch
 Patch0303:	0303-Read-.xsetup-scripts.patch
 
-# fix problem with login after autologin
-# https://bugzilla.redhat.com/show_bug.cgi?id=881896
-Patch0304:	fix-autologin.patch
-
 Provides:	dm
 
 Requires(pre):		rpm-helper
