@@ -96,7 +96,7 @@ diff --git a/data/pam-redhat/gdm-launch-environment.pam b/data/pam-redhat/gdm-la
 index 17f323e..079e351 100644
 --- a/data/pam-redhat/gdm-launch-environment.pam
 +++ b/data/pam-redhat/gdm-launch-environment.pam
-@@ -1,11 +1,10 @@
+@@ -1,10 +1,9 @@
  #%PAM-1.0
  auth       required    pam_env.so
  auth       required    pam_permit.so
@@ -104,7 +104,6 @@ index 17f323e..079e351 100644
  account    required    pam_nologin.so
  account    include     system-auth
  password   include     system-auth
- session    required    pam_loginuid.so
 +session    optional    pam_console.so
  session    optional    pam_keyinit.so force revoke
  session    include     system-auth
