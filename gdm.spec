@@ -123,13 +123,13 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_bindir}/gdm-screenshot
 %{_bindir}/gdmflexiserver
 %{_sbindir}/gdm
-%{_sbindir}/gdm-binary
 %dir %{_sysconfdir}/X11/gdm
 %{_sysconfdir}/gdm
 %config(noreplace) %{_sysconfdir}/pam.d/gdm
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-autologin
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-password
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-pin
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
@@ -140,7 +140,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/X11/gdm/PostSession
 %config(noreplace) %{_sysconfdir}/X11/gdm/PostLogin
 %config(noreplace) %{_sysconfdir}/X11/gdm/Init
-%{_libexecdir}/gdm-crash-logger
 %{_libexecdir}/gdm-host-chooser
 %{_libexecdir}/gdm-session-worker
 %{_libexecdir}/gdm-simple-chooser
