@@ -11,8 +11,8 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	3.6.2
-Release:	3
+Version:	3.8.3.1
+Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		http://www.gnome.org/projects/gdm/
@@ -30,7 +30,6 @@ Patch0300:	0300-Novell-Make-keyboard-selector-not-neglect-to-apply-t.patch
 Patch0301:	0301-Novell-Look-at-the-current-runlevel-before-managing-.patch
 Patch0302:	0302-Fix-gdm-pam.d-configs.patch
 Patch0303:	0303-Read-.xsetup-scripts.patch
-Patch0400:	gdm-3.6.2-automake-1.13.patch
 
 # fix problem with login after autologin
 # https://bugzilla.redhat.com/show_bug.cgi?id=881896
