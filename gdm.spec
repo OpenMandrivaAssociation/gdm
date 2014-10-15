@@ -3,7 +3,6 @@
 %define major		1
 %define	gmajor		1.0
 %define libname		%mklibname gdm %{major}
-%define libnamesimple	%mklibname gdmsimplegreeter %{major}
 %define develname	%mklibname -d %{name}
 %define girname		%mklibname gdm-gir %{gmajor}
 
@@ -11,8 +10,8 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	3.8.3.1
-Release:	7
+Version:	3.14.1
+Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		http://www.gnome.org/projects/gdm/
@@ -20,13 +19,6 @@ Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{url_ver}/%{name}-%{vers
 # (cg) Managing patches via git
 # git format-patch --start-number 100 3.1.2..mga-3.1.2-cherry-picks
 
-# git format-patch --start-number 200 mga-3.1.2-cherry-picks..mga-3.1.2-plymouth
-#Patch0200:	0200-Save-root-window-to-pixmap-at-_XROOTPMAP_ID.patch
-#Patch0201:	0201-Enable-smooth-transition-between-plymouth-and-X.patch
-#Patch0202:	0202-Fedora-force-active-vt-patch-separated-from-plymouth.patch
-#Patch0203:	0203-Mageia-force-active-vt-patch-fix.patch
-# git format-patch --start-number 300 mga-3.1.2-plymouth..mga-3.1.2-patches
-Patch0300:	0300-Novell-Make-keyboard-selector-not-neglect-to-apply-t.patch
 Patch0301:	0301-Novell-Look-at-the-current-runlevel-before-managing-.patch
 Patch0302:	0302-Fix-gdm-pam.d-configs.patch
 Patch0303:	0303-Read-.xsetup-scripts.patch
@@ -61,7 +53,6 @@ BuildRequires: 	pkgconfig(accountsservice) >= 0.6.12
 BuildRequires:	pkgconfig(check) >= 0.9.4
 BuildRequires:	pkgconfig(dbus-glib-1) >= 0.74
 BuildRequires:	pkgconfig(fontconfig) >= 2.5.0
-BuildRequires:	pkgconfig(gconf-2.0) >= 2.31.3
 BuildRequires:	pkgconfig(gio-2.0) >= 2.29.3
 BuildRequires:	pkgconfig(gobject-2.0) >= 2.29.3
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
@@ -143,23 +134,11 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_libexecdir}/gdm-host-chooser
 %{_libexecdir}/gdm-session-worker
 %{_libexecdir}/gdm-simple-chooser
-%{_libexecdir}/gdm-simple-greeter
-%{_libexecdir}/gdm-simple-slave
-%{_libexecdir}/gdm-smartcard-worker
-%{_libexecdir}/gdm-xdmcp-chooser-slave
-%dir %{_libdir}/gdm
-%dir %{_libdir}/gdm/simple-greeter
-%dir %{_libdir}/gdm/simple-greeter/extensions
-%{_libdir}/gdm/simple-greeter/extensions/libfingerprint.so
-%{_libdir}/gdm/simple-greeter/extensions/libpassword.so
-%{_libdir}/gdm/simple-greeter/extensions/libsmartcard.so
 %{_datadir}/pixmaps/*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
-%attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.config
-%attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.config/dconf
 #attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
 %attr(1755, gdm, gdm) %dir %{_localstatedir}/run/gdm/greeter
 %attr(1777, root, gdm) %dir %{_localstatedir}/run/gdm
@@ -167,34 +146,14 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
-%{_sysconfdir}/dconf/profile/gdm
-%ghost %{_sysconfdir}/dconf/db/%{name}
-%dir %{_sysconfdir}/dconf/db/gdm.d
-%{_sysconfdir}/dconf/db/gdm.d/00-upstream-settings
-%dir %{_sysconfdir}/dconf/db/gdm.d/locks
-%{_sysconfdir}/dconf/db/gdm.d/locks/00-upstream-settings-locks
+%{_datadir}/dconf/profile/gdm
 %{_datadir}/gnome-session/sessions/gdm-shell.session
-%{_datadir}/gnome-session/sessions/gdm-fallback.session
 %dir %{_var}/log/gdm
 %{_datadir}/icons/hicolor/*/apps/gdm*
 # (cg) Note: Ship this, but lets not enable it or do anything fancy
 # until we fully redo any prefdm stuff and have units for all DMs
 # we support.
 %{_unitdir}/gdm.service
-
-#--------------------------------------------------------------------
-%package -n %{libnamesimple}
-Summary:	Library for the %name simple greeter
-Group:		System/Libraries
-
-%description -n %{libnamesimple}
-Gdm (the GNOME Display Manager) is a highly configurable
-reimplementation of xdm, the X Display Manager. Gdm allows you to log
-into your system with the X Window System running and supports running
-several different X sessions on your local machine at the same time.
-
-%files -n %{libnamesimple}
-%{_libdir}/libgdmsimplegreeter.so.%{major}*
 
 #--------------------------------------------------------------------
 %package -n %{libname}
@@ -238,9 +197,7 @@ developing applications that use %{name}.
 
 %files -n %{develname}
 %{_includedir}/gdm
-%{_libdir}/libgdmsimplegreeter.so
 %{_libdir}/libgdm.so
-%{_libdir}/pkgconfig/gdmsimplegreeter.pc
 %{_libdir}/pkgconfig/gdm.pc
 %{_datadir}/gir-1.0/Gdm-%{gmajor}.gir
 
@@ -285,9 +242,6 @@ find %{buildroot} -name '*.la' -delete
 # (cg) The existing gdm file is what we really want for gdm-password
 rm -f %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 ln -s gdm %{buildroot}%{_sysconfdir}/pam.d/gdm-password
-
-# (cg) For ghost ownership
-touch %{buildroot}%{_sysconfdir}/dconf/db/%{name}
 
 pushd %{buildroot}%{_sysconfdir}
 ln -s X11/gdm
