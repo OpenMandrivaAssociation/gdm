@@ -35,7 +35,6 @@ Requires:	cdialog
 Requires:	zenity
 Requires:	gnome-session-bin
 Requires:	gnome-settings-daemon
-Requires:	metacity
 Suggests:	gnome-power-manager
 # for XFdrake on failsafe fallback:
 Requires:	drakx-kbd-mouse-x11
