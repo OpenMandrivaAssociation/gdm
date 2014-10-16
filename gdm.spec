@@ -69,6 +69,7 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xau)
 BuildRequires:	pkgconfig(xdmcp)
 BuildRequires:	pkgconfig(xrandr)
+BuildRequires:	dconf
 BuildRequires:	pam-devel
 BuildRequires:	libwrap-devel
 BuildRequires:	audit-devel
