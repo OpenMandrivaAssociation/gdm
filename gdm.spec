@@ -11,7 +11,7 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	3.14.1
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		http://www.gnome.org/projects/gdm/
@@ -210,7 +210,7 @@ cp data/Init.in data/Default.in
 
 %build
 NOCONFIGURE=yes gnome-autogen.sh
-%configure2_5x \
+%configure \
 	--with-sysconfsubdir=X11/gdm \
 	--with-dmconfdir=%{_sysconfdir}/X11/dm \
 	--disable-static \
@@ -249,3 +249,5 @@ popd
 
 echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm
 echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm-autologin
+echo "session    required    pam_systemd.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm
+echo "session    required    pam_systemd.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm-autologin
