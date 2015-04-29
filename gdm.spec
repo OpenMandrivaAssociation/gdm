@@ -19,8 +19,6 @@ Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{url_ver}/%{name}-%{vers
 # (cg) Managing patches via git
 # git format-patch --start-number 100 3.1.2..mga-3.1.2-cherry-picks
 
-Patch0301:	0301-Novell-Look-at-the-current-runlevel-before-managing-.patch
-Patch0302:	0302-Fix-gdm-pam.d-configs.patch
 Patch0303:	0303-Read-.xsetup-scripts.patch
 
 Provides:	dm
