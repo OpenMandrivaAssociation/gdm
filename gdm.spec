@@ -132,6 +132,8 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_libexecdir}/gdm-host-chooser
 %{_libexecdir}/gdm-session-worker
 %{_libexecdir}/gdm-simple-chooser
+%{_libexecdir}/gdm-wayland-session
+%{_libexecdir}/gdm-x-session
 %{_datadir}/pixmaps/*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
@@ -145,7 +147,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
 %{_datadir}/dconf/profile/gdm
-%{_datadir}/gnome-session/sessions/gdm-shell.session
 %dir %{_var}/log/gdm
 %{_datadir}/icons/hicolor/*/apps/gdm*
 # (cg) Note: Ship this, but lets not enable it or do anything fancy
