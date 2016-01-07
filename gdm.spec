@@ -10,12 +10,12 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	 3.18.2
-Release:	5
+Version:	3.18.2
+Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		http://www.gnome.org/projects/gdm/
-Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{url_ver}/%{name}-%{version}.tar.xz
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{url_ver}/%{name}-%{version}.tar.xz
 # (cg) Managing patches via git
 # git format-patch --start-number 100 3.1.2..mga-3.1.2-cherry-picks
 
