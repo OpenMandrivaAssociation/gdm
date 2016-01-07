@@ -95,9 +95,6 @@ several different X sessions on your local machine at the same time.
 # http://git.gnome.org/browse/gdm/commit/?id=eebeb62e2daccc932f3033fbd857b619ba9936d0
 dconf update
 
-if [ -f /%{_sysconfdir}/X11/xdm/Xsession -a ! -x /%{_sysconfdir}/X11/xdm/Xsession ]; then
-        chmod +x /%{_sysconfdir}/X11/xdm/Xsession
-fi
 if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 
 %update_scrollkeeper
@@ -123,7 +120,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
-%config(noreplace) %{_sysconfdir}/X11/gdm/Xsession
 %dir %{_sysconfdir}/X11/dm
 %dir %{_sysconfdir}/X11/dm/Sessions
 %config(noreplace) %{_sysconfdir}/X11/gdm/PreSession
