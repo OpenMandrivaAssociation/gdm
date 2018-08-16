@@ -34,8 +34,6 @@ Requires:	zenity
 Requires:	gnome-session-bin
 Requires:	gnome-settings-daemon
 Suggests:	gnome-power-manager
-# for XFdrake on failsafe fallback:
-Requires:	drakx-kbd-mouse-x11
 Requires:	xinitrc >= 2.4.14
 Requires:	dbus-x11
 Requires:	polkit-gnome
