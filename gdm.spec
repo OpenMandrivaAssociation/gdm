@@ -10,7 +10,7 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	3.18.2
+Version:	3.30.1
 Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
@@ -20,6 +20,8 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{url_ver}/%{name}-%{ver
 # git format-patch --start-number 100 3.1.2..mga-3.1.2-cherry-picks
 
 Patch0303:	0303-Read-.xsetup-scripts.patch
+
+# It is possible that we will have to import several patches from Fedora and Mageia. Just test it after build and see if needed. (pengin)
 
 Provides:	dm
 
@@ -38,7 +40,9 @@ Requires:	xinitrc >= 2.4.14
 Requires:	dbus-x11
 Requires:	polkit-gnome
 Requires:	accountsservice
-Requires:	gnome-icon-theme-symbolic
+#Droped in upstream, use adwaita
+#Requires:	gnome-icon-theme-symbolic
+Requires:	adwaita-icon-theme
 Provides:	gdm-Xnest
 Obsoletes:	gdm-Xnest
 
@@ -56,9 +60,10 @@ BuildRequires:	pkgconfig(gtk+-3.0) >= 2.91.1
 BuildRequires:	pkgconfig(libcanberra-gtk3) >= 0.4
 BuildRequires:	pkgconfig(libxklavier) >= 4.0
 BuildRequires:	pkgconfig(nss) >= 3.11.1
-BuildRequires:	pkgconfig(libsystemd-login)
-BuildRequires:	pkgconfig(libsystemd-daemon)
-BuildRequires:	pkgconfig(libsystemd-journal)
+BuildRequires:	pkgconfig(systemd)
+#BuildRequires:	pkgconfig(libsystemd-login)
+#BuildRequires:	pkgconfig(libsystemd-daemon)
+#BuildRequires:	pkgconfig(libsystemd-journal)
 BuildRequires:	pkgconfig(ply-boot-client)
 BuildRequires:	pkgconfig(upower-glib) >= 0.9.0
 BuildRequires:	pkgconfig(x11)
@@ -103,7 +108,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %_postun_groupdel xgrp gdm
 
 %files -f %{name}.lang
-%doc AUTHORS COPYING NEWS README
+%doc AUTHORS COPYING NEWS README.md
 %_sysconfdir/dbus-1/system.d/gdm.conf
 %{_bindir}/gdm-screenshot
 %{_bindir}/gdmflexiserver
@@ -124,14 +129,19 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/X11/gdm/PostSession
 %config(noreplace) %{_sysconfdir}/X11/gdm/PostLogin
 %config(noreplace) %{_sysconfdir}/X11/gdm/Init
+%{_libdir}/security/pam_gdm.so
+
 %{_libexecdir}/gdm-host-chooser
 %{_libexecdir}/gdm-session-worker
 %{_libexecdir}/gdm-simple-chooser
+%{_libexecdir}/gdm-disable-wayland
 %{_libexecdir}/gdm-wayland-session
 %{_libexecdir}/gdm-x-session
+/rules.d/61-gdm.rules
 %{_datadir}/pixmaps/*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
+%{_datadir}/gnome-session/sessions/gnome-login.session
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
 #attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
@@ -148,6 +158,9 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 # until we fully redo any prefdm stuff and have units for all DMs
 # we support.
 %{_unitdir}/gdm.service
+
+%exclude /usr/lib*/debug/usr/lib*/security/pam_gdm.so-3.30.1-1.x86_64.debug
+%exclude /usr/lib*/debug/usr/libexec/gdm-disable-wayland-3.30.1-1.x86_64.debug
 
 #--------------------------------------------------------------------
 %package -n %{libname}
@@ -193,6 +206,7 @@ developing applications that use %{name}.
 %{_includedir}/gdm
 %{_libdir}/libgdm.so
 %{_libdir}/pkgconfig/gdm.pc
+%{_libdir}/pkgconfig/gdm-pam-extensions.pc
 %{_datadir}/gir-1.0/Gdm-%{gmajor}.gir
 
 #--------------------------------------------------------------------
