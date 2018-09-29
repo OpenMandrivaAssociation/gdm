@@ -137,7 +137,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_libexecdir}/gdm-disable-wayland
 %{_libexecdir}/gdm-wayland-session
 %{_libexecdir}/gdm-x-session
-%{_udevrulesdir}/61-gdm.rules
+/rules.d/61-gdm.rules
 %{_datadir}/pixmaps/*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
