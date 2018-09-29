@@ -129,14 +129,19 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/X11/gdm/PostSession
 %config(noreplace) %{_sysconfdir}/X11/gdm/PostLogin
 %config(noreplace) %{_sysconfdir}/X11/gdm/Init
+%{_libdir}/security/pam_gdm.so
+
 %{_libexecdir}/gdm-host-chooser
 %{_libexecdir}/gdm-session-worker
 %{_libexecdir}/gdm-simple-chooser
+%{_libexecdir}/gdm-disable-wayland
 %{_libexecdir}/gdm-wayland-session
 %{_libexecdir}/gdm-x-session
+%{_udevrulesdir}/61-gdm.rules
 %{_datadir}/pixmaps/*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
+%{_datadir}/gnome-session/sessions/gnome-login.session
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
 #attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
@@ -153,6 +158,9 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 # until we fully redo any prefdm stuff and have units for all DMs
 # we support.
 %{_unitdir}/gdm.service
+
+%exclude /usr/lib*/debug/usr/lib*/security/pam_gdm.so-3.30.1-1.x86_64.debug
+%exclude /usr/lib*/debug/usr/libexec/gdm-disable-wayland-3.30.1-1.x86_64.debug
 
 #--------------------------------------------------------------------
 %package -n %{libname}
@@ -198,6 +206,7 @@ developing applications that use %{name}.
 %{_includedir}/gdm
 %{_libdir}/libgdm.so
 %{_libdir}/pkgconfig/gdm.pc
+%{_libdir}/pkgconfig/gdm-pam-extensions.pc
 %{_datadir}/gir-1.0/Gdm-%{gmajor}.gir
 
 #--------------------------------------------------------------------
