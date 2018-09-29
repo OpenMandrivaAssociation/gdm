@@ -10,7 +10,7 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	3.18.2
+Version:	3.30.1
 Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
@@ -38,7 +38,9 @@ Requires:	xinitrc >= 2.4.14
 Requires:	dbus-x11
 Requires:	polkit-gnome
 Requires:	accountsservice
-Requires:	gnome-icon-theme-symbolic
+#Droped in upstream, use adwaita
+#Requires:	gnome-icon-theme-symbolic
+Requires:	adwaita-icon-theme
 Provides:	gdm-Xnest
 Obsoletes:	gdm-Xnest
 
