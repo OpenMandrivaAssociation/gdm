@@ -21,6 +21,8 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{url_ver}/%{name}-%{ver
 
 Patch0303:	0303-Read-.xsetup-scripts.patch
 
+# It is possible that we will have to import several patches from Fedora and Mageia. Just test it after build and see if needed. (pengin)
+
 Provides:	dm
 
 Requires(pre):		rpm-helper
@@ -106,7 +108,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %_postun_groupdel xgrp gdm
 
 %files -f %{name}.lang
-%doc AUTHORS COPYING NEWS README
+%doc AUTHORS COPYING NEWS README.md
 %_sysconfdir/dbus-1/system.d/gdm.conf
 %{_bindir}/gdm-screenshot
 %{_bindir}/gdmflexiserver
