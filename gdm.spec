@@ -11,7 +11,7 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	3.30.2
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		http://www.gnome.org/projects/gdm/
@@ -60,10 +60,8 @@ BuildRequires:	pkgconfig(gtk+-3.0) >= 2.91.1
 BuildRequires:	pkgconfig(libcanberra-gtk3) >= 0.4
 BuildRequires:	pkgconfig(libxklavier) >= 4.0
 BuildRequires:	pkgconfig(nss) >= 3.11.1
-BuildRequires:	pkgconfig(systemd)
-#BuildRequires:	pkgconfig(libsystemd-login)
-#BuildRequires:	pkgconfig(libsystemd-daemon)
-#BuildRequires:	pkgconfig(libsystemd-journal)
+BuildRequires:	pkgconfig(libsystemd)
+BuildRequires:	systemd-macros
 BuildRequires:	pkgconfig(ply-boot-client)
 BuildRequires:	pkgconfig(upower-glib) >= 0.9.0
 BuildRequires:	pkgconfig(x11)
@@ -79,7 +77,7 @@ BuildRequires:	gettext-devel
 BuildRequires:	yelp-tools
 BuildRequires:	itstool
 BuildRequires:	gnome-common
-
+BuildRequires:	rpm-helper
 Obsoletes:	gdm-user-switch-applet < 3.0.0
 
 %description
@@ -212,9 +210,8 @@ developing applications that use %{name}.
 #--------------------------------------------------------------------
 
 %prep
-%setup -q
+%autosetup -p1
 cp data/Init.in data/Default.in
-%apply_patches
 
 %build
 NOCONFIGURE=yes gnome-autogen.sh
@@ -226,10 +223,10 @@ NOCONFIGURE=yes gnome-autogen.sh
 	--with-systemd \
 	--with-plymouth
 
-%make
+%make_build
 
 %install
-%makeinstall_std PAM_PREFIX=%{_sysconfdir}
+%make_install PAM_PREFIX=%{_sysconfdir}
 
 # don't provide PreSession/PostSession, pam handle this
 rm -f %{buildroot}%{_sysconfdir}/X11/PreSession/Default
