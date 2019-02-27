@@ -1,8 +1,2 @@
-removed_sources:
-  gdm-3.14.1.tar.xz: fed1efd5fb8d0d09cdaa02d3aac12db781a2e75e
-  gdm-3.16.1.1.tar.xz: 72278bbb234ec93c8c26ee0a660ae1ed1ecce35b
-  gdm-3.8.3.1.tar.xz: dd49a50f0da46ad64e5de895cc230c568aa5cff0
-  gdm-3.18.2.tar.xz: d043982ff747c46555e175d71a5a5b5e5bb182a7
 sources:
-  gdm-3.30.1.tar.xz: 6facd71972ecd44368091605fd4f55da44e4dfb4
-  gdm-3.30.2.tar.xz: da7a257412bd4d3a595354e56bc5326d98586c2b
+  gdm-3.30.3.tar.xz: d7d07383814edf85b2c2106d9e0409a343d92706

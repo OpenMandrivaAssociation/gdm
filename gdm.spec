@@ -10,8 +10,8 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	3.30.2
-Release:	2
+Version:	3.30.3
+Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		http://www.gnome.org/projects/gdm/
@@ -40,9 +40,12 @@ Requires:	xinitrc >= 2.4.14
 Requires:	dbus-x11
 Requires:	polkit-gnome
 Requires:	accountsservice
+Requires:	gnome-shell
 #Droped in upstream, use adwaita
 #Requires:	gnome-icon-theme-symbolic
 Requires:	adwaita-icon-theme
+Requires:	x11-server-xwayland
+Requires:	xhost
 Provides:	gdm-Xnest
 Obsoletes:	gdm-Xnest
 
@@ -68,6 +71,7 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xau)
 BuildRequires:	pkgconfig(xdmcp)
 BuildRequires:	pkgconfig(xrandr)
+BuildRequires:	pkgconfig(libkeyutils)
 BuildRequires:	dconf
 BuildRequires:	pam-devel
 BuildRequires:	libwrap-devel
@@ -78,6 +82,7 @@ BuildRequires:	yelp-tools
 BuildRequires:	itstool
 BuildRequires:	gnome-common
 BuildRequires:	rpm-helper
+BuildRequires:	pkgconfig(xorg-server)
 Obsoletes:	gdm-user-switch-applet < 3.0.0
 
 %description
@@ -121,6 +126,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
+%config(noreplace) %{_sysconfdir}/X11/gdm/Xsession
 %dir %{_sysconfdir}/X11/dm
 %dir %{_sysconfdir}/X11/dm/Sessions
 %config(noreplace) %{_sysconfdir}/X11/gdm/PreSession
@@ -129,9 +135,9 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/X11/gdm/Init
 %{_libdir}/security/pam_gdm.so
 
-%{_libexecdir}/gdm-host-chooser
+#{_libexecdir}/gdm-host-chooser
 %{_libexecdir}/gdm-session-worker
-%{_libexecdir}/gdm-simple-chooser
+#{_libexecdir}/gdm-simple-chooser
 %{_libexecdir}/gdm-disable-wayland
 %{_libexecdir}/gdm-wayland-session
 %{_libexecdir}/gdm-x-session
@@ -157,8 +163,8 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 # we support.
 %{_unitdir}/gdm.service
 
-%exclude /usr/lib*/debug/usr/lib*/security/pam_gdm.so-3.30.1-1.x86_64.debug
-%exclude /usr/lib*/debug/usr/libexec/gdm-disable-wayland-3.30.1-1.x86_64.debug
+#exclude /usr/lib*/debug/usr/lib*/security/pam_gdm.so-3.30.1-1.x86_64.debug
+#exclude /usr/lib*/debug/usr/libexec/gdm-disable-wayland-3.30.1-1.x86_64.debug
 
 #--------------------------------------------------------------------
 %package -n %{libname}
@@ -221,7 +227,8 @@ NOCONFIGURE=yes gnome-autogen.sh
 	--disable-static \
 	--with-console-kit=no \
 	--with-systemd \
-	--with-plymouth
+	--with-plymouth \
+	--without-xdmcp
 
 %make_build
 
@@ -251,6 +258,13 @@ ln -s gdm %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 pushd %{buildroot}%{_sysconfdir}
 ln -s X11/gdm
 popd
+
+# (ovitters) gdm-session starts gdm-x-session which can start /etc/X11/gdm/Xsession
+#            ensure it is a symlink to the xinitrc Xsession
+ln -s ../Xsession %{buildroot}%{_sysconfdir}/X11/gdm/Xsession
+
+# (tmb) must exist for gdm to start xorg when WaylandEnable=false
+mkdir -p %{buildroot}%{_localstatedir}/lib/gdm/.local/share/xorg
 
 echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm
 echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm-autologin
