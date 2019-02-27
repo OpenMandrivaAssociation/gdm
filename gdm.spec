@@ -134,9 +134,9 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/X11/gdm/Init
 %{_libdir}/security/pam_gdm.so
 
-%{_libexecdir}/gdm-host-chooser
+#{_libexecdir}/gdm-host-chooser
 %{_libexecdir}/gdm-session-worker
-%{_libexecdir}/gdm-simple-chooser
+#{_libexecdir}/gdm-simple-chooser
 %{_libexecdir}/gdm-disable-wayland
 %{_libexecdir}/gdm-wayland-session
 %{_libexecdir}/gdm-x-session
@@ -162,8 +162,8 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 # we support.
 %{_unitdir}/gdm.service
 
-%exclude /usr/lib*/debug/usr/lib*/security/pam_gdm.so-3.30.1-1.x86_64.debug
-%exclude /usr/lib*/debug/usr/libexec/gdm-disable-wayland-3.30.1-1.x86_64.debug
+#exclude /usr/lib*/debug/usr/lib*/security/pam_gdm.so-3.30.1-1.x86_64.debug
+#exclude /usr/lib*/debug/usr/libexec/gdm-disable-wayland-3.30.1-1.x86_64.debug
 
 #--------------------------------------------------------------------
 %package -n %{libname}
