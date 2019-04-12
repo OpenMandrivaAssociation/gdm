@@ -10,7 +10,7 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	3.30.3
+Version:	3.32.0
 Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
@@ -43,6 +43,7 @@ Requires:	accountsservice
 Requires:	gnome-shell
 #Droped in upstream, use adwaita
 #Requires:	gnome-icon-theme-symbolic
+Requires:	gnome-shell
 Requires:	adwaita-icon-theme
 Requires:	x11-server-xwayland
 Requires:	xhost
@@ -64,6 +65,7 @@ BuildRequires:	pkgconfig(libcanberra-gtk3) >= 0.4
 BuildRequires:	pkgconfig(libxklavier) >= 4.0
 BuildRequires:	pkgconfig(nss) >= 3.11.1
 BuildRequires:	pkgconfig(libsystemd)
+BuildRequires:  pkgconfig(systemd)
 BuildRequires:	systemd-macros
 BuildRequires:	pkgconfig(ply-boot-client)
 BuildRequires:	pkgconfig(upower-glib) >= 0.9.0
@@ -94,6 +96,9 @@ several different X sessions on your local machine at the same time.
 %pre
 %_pre_useradd gdm %{_var}/lib/gdm /bin/false
 %_pre_groupadd xgrp gdm
+
+%preun
+%systemd_preun gdm.service
 
 %post
 
@@ -216,8 +221,8 @@ developing applications that use %{name}.
 #--------------------------------------------------------------------
 
 %prep
-%autosetup -p1
 cp data/Init.in data/Default.in
+%autosetup -p1
 
 %build
 NOCONFIGURE=yes gnome-autogen.sh
