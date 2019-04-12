@@ -221,8 +221,8 @@ developing applications that use %{name}.
 #--------------------------------------------------------------------
 
 %prep
-cp data/Init.in data/Default.in
 %autosetup -p1
+cp data/Init.in data/Default.in
 
 %build
 NOCONFIGURE=yes gnome-autogen.sh
