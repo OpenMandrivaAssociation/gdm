@@ -19,9 +19,11 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{url_ver}/%{name}-%{ver
 # (cg) Managing patches via git
 # git format-patch --start-number 100 3.1.2..mga-3.1.2-cherry-picks
 
-Patch0303:	0303-Read-.xsetup-scripts.patch
-
 # It is possible that we will have to import several patches from Fedora and Mageia. Just test it after build and see if needed. (pengin)
+Patch0302:	0302-Fix-gdm-pam.d-configs.patch
+Patch0303:	0303-Read-.xsetup-scripts.patch
+Patch0305:	0305-gdm-optimus-hack.patch
+
 
 Provides:	dm
 
@@ -270,6 +272,9 @@ ln -s ../Xsession %{buildroot}%{_sysconfdir}/X11/gdm/Xsession
 
 # (tmb) must exist for gdm to start xorg when WaylandEnable=false
 mkdir -p %{buildroot}%{_localstatedir}/lib/gdm/.local/share/xorg
+
+# (martinw) enable root apps (e.g. MCC) to run in Wayland
+install -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
 
 echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm
 echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm-autologin
