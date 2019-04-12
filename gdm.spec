@@ -170,6 +170,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 # until we fully redo any prefdm stuff and have units for all DMs
 # we support.
 %{_unitdir}/gdm.service
+%{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
 
 #exclude /usr/lib*/debug/usr/lib*/security/pam_gdm.so-3.30.1-1.x86_64.debug
 #exclude /usr/lib*/debug/usr/libexec/gdm-disable-wayland-3.30.1-1.x86_64.debug
