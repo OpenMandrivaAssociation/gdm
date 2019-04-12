@@ -16,13 +16,14 @@ License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		http://www.gnome.org/projects/gdm/
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{url_ver}/%{name}-%{version}.tar.xz
+Source1:	gnome-enable-root-gui.desktop
 # (cg) Managing patches via git
 # git format-patch --start-number 100 3.1.2..mga-3.1.2-cherry-picks
 
 # It is possible that we will have to import several patches from Fedora and Mageia. Just test it after build and see if needed. (pengin)
 Patch0302:	0302-Fix-gdm-pam.d-configs.patch
 Patch0303:	0303-Read-.xsetup-scripts.patch
-Patch0305:	0305-gdm-optimus-hack.patch
+
 
 
 Provides:	dm
