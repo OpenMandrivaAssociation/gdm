@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=GNOME enable root GUI
+Comment=Enables GUI applications run as root to use the local display
+Exec=/usr/bin/xhost +si:localuser:root
+Terminal=false
+Type=Application
+OnlyShowIn=GNOME
+X-GNOME-Autostart-Phase=Initialization
