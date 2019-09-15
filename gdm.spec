@@ -10,7 +10,7 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	3.32.0
+Version:	3.34.0
 Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
@@ -150,7 +150,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_libexecdir}/gdm-wayland-session
 %{_libexecdir}/gdm-x-session
 /rules.d/61-gdm.rules
-%{_datadir}/pixmaps/*
+#{_datadir}/pixmaps/*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
 %{_datadir}/gnome-session/sessions/gnome-login.session
@@ -165,7 +165,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
 %{_datadir}/dconf/profile/gdm
 %dir %{_var}/log/gdm
-%{_datadir}/icons/hicolor/*/apps/gdm*
+#{_datadir}/icons/hicolor/*/apps/gdm*
 # (cg) Note: Ship this, but lets not enable it or do anything fancy
 # until we fully redo any prefdm stuff and have units for all DMs
 # we support.
