@@ -229,7 +229,7 @@ developing applications that use %{name}.
 cp data/Init.in data/Default.in
 
 %build
-#NOCONFIGURE=yes gnome-autogen.sh
+NOCONFIGURE=yes gnome-autogen.sh
 %configure \
 	--with-sysconfsubdir=X11/gdm \
 	--with-dmconfdir=%{_sysconfdir}/X11/dm \
