@@ -24,8 +24,6 @@ Source1:	gnome-enable-root-gui.desktop
 Patch0302:	0302-Fix-gdm-pam.d-configs.patch
 #Patch0303:	0303-Read-.xsetup-scripts.patch
 
-
-
 Provides:	dm
 
 Requires(pre):		rpm-helper
@@ -147,7 +145,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_libdir}/security/pam_gdm.so
 
 %{_libexecdir}/gdm-*
-/rules.d/61-gdm.rules
+#/rules.d/61-gdm.rules
 #{_datadir}/pixmaps/*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
@@ -155,12 +153,12 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
 #attr(1750, gdm, gdm) #dir #{_localstatedir}/lib/gdm/.local/share/applications
-%attr(1755, gdm, gdm) %dir %{_localstatedir}/run/gdm/greeter
-%attr(1777, root, gdm) %dir %{_localstatedir}/run/gdm
+#attr(1755, gdm, gdm) #dir #{_localstatedir}/run/gdm/greeter
+#attr(1777, root, gdm) #dir %{_localstatedir}/run/gdm
 #attr(1755, root, gdm) #dir #{_localstatedir}/cache/gdm
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share
-%attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
+#attr(700,gdm,gdm) #dir #{_localstatedir}/lib/gdm/.local/share/applications
 %{_datadir}/dconf/profile/gdm
 %dir %{_var}/log/gdm
 #{_datadir}/icons/hicolor/*/apps/gdm*
