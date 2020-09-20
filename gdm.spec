@@ -22,7 +22,7 @@ Source1:	gnome-enable-root-gui.desktop
 
 # It is possible that we will have to import several patches from Fedora and Mageia. Just test it after build and see if needed. (pengin)
 Patch0302:	0302-Fix-gdm-pam.d-configs.patch
-Patch0303:	0303-Read-.xsetup-scripts.patch
+#Patch0303:	0303-Read-.xsetup-scripts.patch
 
 
 
@@ -77,6 +77,7 @@ BuildRequires:	pkgconfig(xau)
 BuildRequires:	pkgconfig(xdmcp)
 BuildRequires:	pkgconfig(xrandr)
 BuildRequires:	pkgconfig(libkeyutils)
+BuildRequires:	meson
 BuildRequires:	dconf
 BuildRequires:	pam-devel
 BuildRequires:	libwrap-devel
@@ -134,7 +135,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
-%config(noreplace) %{_sysconfdir}/X11/gdm/Xsession
+#config(noreplace) #{_sysconfdir}/X11/gdm/Xsession
 %dir %{_sysconfdir}/X11/dm
 %dir %{_sysconfdir}/X11/dm/Sessions
 %config(noreplace) %{_sysconfdir}/X11/gdm/PreSession
@@ -143,12 +144,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/X11/gdm/Init
 %{_libdir}/security/pam_gdm.so
 
-#{_libexecdir}/gdm-host-chooser
-%{_libexecdir}/gdm-session-worker
-#{_libexecdir}/gdm-simple-chooser
-%{_libexecdir}/gdm-disable-wayland
-%{_libexecdir}/gdm-wayland-session
-%{_libexecdir}/gdm-x-session
+%{_libexecdir}/gdm-*
 /rules.d/61-gdm.rules
 #{_datadir}/pixmaps/*
 %{_datadir}/gdm
@@ -156,10 +152,10 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_datadir}/gnome-session/sessions/gnome-login.session
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
-#attr(1750, gdm, gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
+#attr(1750, gdm, gdm) #dir #{_localstatedir}/lib/gdm/.local/share/applications
 %attr(1755, gdm, gdm) %dir %{_localstatedir}/run/gdm/greeter
 %attr(1777, root, gdm) %dir %{_localstatedir}/run/gdm
-%attr(1755, root, gdm) %dir %{_localstatedir}/cache/gdm
+#attr(1755, root, gdm) #dir #{_localstatedir}/cache/gdm
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share/applications
@@ -171,6 +167,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 # we support.
 %{_unitdir}/gdm.service
 %{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
+ /usr/lib/systemd/user/gnome-session@gnome-login.target.d/session.conf
 
 #exclude /usr/lib*/debug/usr/lib*/security/pam_gdm.so-3.30.1-1.x86_64.debug
 #exclude /usr/lib*/debug/usr/libexec/gdm-disable-wayland-3.30.1-1.x86_64.debug
@@ -229,20 +226,20 @@ developing applications that use %{name}.
 cp data/Init.in data/Default.in
 
 %build
-NOCONFIGURE=yes gnome-autogen.sh
-%configure \
-	--with-sysconfsubdir=X11/gdm \
-	--with-dmconfdir=%{_sysconfdir}/X11/dm \
-	--disable-static \
-	--with-console-kit=no \
-	--with-systemd \
-	--with-plymouth \
-	--without-xdmcp
+%meson -Dpam-prefix=%{_sysconfdir} \
+       --sysconfdir=%{_sysconfdir}/X11 \
+       -Ddbus-sys=%{_sysconfdir}/dbus-1/system.d \
+       -Drun-dir=/run/gdm \
+       -Dudev-dir=%{_udevrulesdir} \
+       -Ddefault-path=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin \
+       -Dprofiling=true \
+       -Dplymouth=enabled \
+       -Dselinux=disabled
 
-%make_build
+%meson_build
 
 %install
-%make_install PAM_PREFIX=%{_sysconfdir}
+%meson_install
 
 # don't provide PreSession/PostSession, pam handle this
 rm -f %{buildroot}%{_sysconfdir}/X11/PreSession/Default
@@ -270,7 +267,7 @@ popd
 
 # (ovitters) gdm-session starts gdm-x-session which can start /etc/X11/gdm/Xsession
 #            ensure it is a symlink to the xinitrc Xsession
-ln -s ../Xsession %{buildroot}%{_sysconfdir}/X11/gdm/Xsession
+#ln -s ../Xsession %{buildroot}%{_sysconfdir}/X11/gdm/Xsession
 
 # (tmb) must exist for gdm to start xorg when WaylandEnable=false
 mkdir -p %{buildroot}%{_localstatedir}/lib/gdm/.local/share/xorg
