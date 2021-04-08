@@ -10,7 +10,7 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	3.38.2.1
+Version:	40.0
 Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
@@ -33,7 +33,7 @@ Requires:	pam
 Requires:	sessreg
 Requires:	usermode
 Requires:	cdialog
-Requires:	zenity
+Requires:	zenity-gtk
 Requires:	gnome-session-bin
 Requires:	gnome-settings-daemon
 Suggests:	gnome-power-manager
