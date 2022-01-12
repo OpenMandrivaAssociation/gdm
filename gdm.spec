@@ -132,7 +132,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-autologin
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-password
-%config(noreplace) %{_sysconfdir}/pam.d/gdm-pin
+#config(noreplace) #{_sysconfdir}/pam.d/gdm-pin
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
