@@ -39,6 +39,7 @@ Requires:	gnome-settings-daemon
 Suggests:	gnome-power-manager
 Requires:	xinitrc >= 2.4.14
 Requires:	dbus-x11
+Requires:	dbus-daemon
 Requires:	polkit-gnome
 Requires:	accountsservice
 Requires:	gnome-shell
@@ -136,7 +137,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
-#config(noreplace) #{_sysconfdir}/X11/gdm/Xsession
+%config(noreplace) %{_sysconfdir}/X11/gdm/Xsession
 %dir %{_sysconfdir}/X11/dm
 %dir %{_sysconfdir}/X11/dm/Sessions
 %config(noreplace) %{_sysconfdir}/X11/gdm/PreSession
@@ -258,9 +259,12 @@ rm -rf %{buildroot}%{_sysconfdir}/X11/gdm/PostLogin/Default.sample \
 
 find %{buildroot} -name '*.la' -delete
 
+ln -s sddm %{buildroot}%{_sysconfdir}/pam.d/gdm
+
 # (cg) The existing gdm file is what we really want for gdm-password
 rm -f %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 ln -s gdm %{buildroot}%{_sysconfdir}/pam.d/gdm-password
+
 
 pushd %{buildroot}%{_sysconfdir}
 ln -s X11/gdm
@@ -268,7 +272,7 @@ popd
 
 # (ovitters) gdm-session starts gdm-x-session which can start /etc/X11/gdm/Xsession
 #            ensure it is a symlink to the xinitrc Xsession
-#ln -s ../Xsession %{buildroot}%{_sysconfdir}/X11/gdm/Xsession
+ln -s ../Xsession %{buildroot}%{_sysconfdir}/X11/gdm/Xsession
 
 # (tmb) must exist for gdm to start xorg when WaylandEnable=false
 mkdir -p %{buildroot}%{_localstatedir}/lib/gdm/.local/share/xorg
@@ -276,7 +280,7 @@ mkdir -p %{buildroot}%{_localstatedir}/lib/gdm/.local/share/xorg
 # (martinw) enable root apps (e.g. MCC) to run in Wayland
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
 
-echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm
+#echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm
 echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm-autologin
-echo "session    required    pam_systemd.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm
+#echo "session    required    pam_systemd.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm
 echo "session    required    pam_systemd.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm-autologin
