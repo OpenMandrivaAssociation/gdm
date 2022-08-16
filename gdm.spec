@@ -127,7 +127,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_bindir}/gdm-screenshot
 %{_bindir}/gdmflexiserver
 %{_sbindir}/gdm
-/lib/udev/rules.d/61-gdm.rules
+#/lib/udev/rules.d/61-gdm.rules
 %dir %{_sysconfdir}/X11/gdm
 %{_sysconfdir}/gdm
 %config(noreplace) %{_sysconfdir}/pam.d/gdm
