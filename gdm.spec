@@ -17,6 +17,7 @@ Group:		Graphical desktop/GNOME
 URL:		http://www.gnome.org/projects/gdm/
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{url_ver}/%{name}-%{version}.tar.xz
 Source1:	gnome-enable-root-gui.desktop
+Source2:	gdm-password
 # (cg) Managing patches via git
 # git format-patch --start-number 100 3.1.2..mga-3.1.2-cherry-picks
 
@@ -60,6 +61,7 @@ BuildRequires:	pkgconfig(dbus-glib-1) >= 0.74
 BuildRequires:	pkgconfig(fontconfig) >= 2.5.0
 BuildRequires:	pkgconfig(gio-2.0) >= 2.29.3
 BuildRequires:	pkgconfig(gobject-2.0) >= 2.29.3
+#gobject-introspection-1.0 provided by lib64girepository-devel
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-3.0) >= 2.91.1
@@ -260,11 +262,10 @@ rm -rf %{buildroot}%{_sysconfdir}/X11/gdm/PostLogin/Default.sample \
 
 find %{buildroot} -name '*.la' -delete
 
-ln -s sddm %{buildroot}%{_sysconfdir}/pam.d/gdm
-
 # (cg) The existing gdm file is what we really want for gdm-password
 rm -f %{buildroot}%{_sysconfdir}/pam.d/gdm-password
-ln -s gdm %{buildroot}%{_sysconfdir}/pam.d/gdm-password
+#ln -s gdm %{buildroot}%{_sysconfdir}/pam.d/gdm-password
+install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 
 
 pushd %{buildroot}%{_sysconfdir}
