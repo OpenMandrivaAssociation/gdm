@@ -132,11 +132,10 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_prefix}/lib/udev/rules.d/61-gdm.rules
 %dir %{_sysconfdir}/X11/gdm
 %{_sysconfdir}/gdm
-%config(noreplace) %{_sysconfdir}/pam.d/gdm
+#config(noreplace) %{_sysconfdir}/pam.d/gdm
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-autologin
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-password
-#config(noreplace) #{_sysconfdir}/pam.d/gdm-pin
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
@@ -150,32 +149,21 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_libdir}/security/pam_gdm.so
 
 %{_libexecdir}/gdm-*
-#/rules.d/61-gdm.rules
-#{_datadir}/pixmaps/*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
 %{_datadir}/gnome-session/sessions/gnome-login.session
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
-#attr(1750, gdm, gdm) #dir #{_localstatedir}/lib/gdm/.local/share/applications
-#attr(1755, gdm, gdm) #dir #{_localstatedir}/run/gdm/greeter
-#attr(1777, root, gdm) #dir %{_localstatedir}/run/gdm
-#attr(1755, root, gdm) #dir #{_localstatedir}/cache/gdm
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local/share
-#attr(700,gdm,gdm) #dir #{_localstatedir}/lib/gdm/.local/share/applications
 %{_datadir}/dconf/profile/gdm
 %dir %{_var}/log/gdm
-#{_datadir}/icons/hicolor/*/apps/gdm*
 # (cg) Note: Ship this, but lets not enable it or do anything fancy
 # until we fully redo any prefdm stuff and have units for all DMs
 # we support.
 %{_unitdir}/gdm.service
 %{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
- /usr/lib/systemd/user/gnome-session@gnome-login.target.d/session.conf
-
-#exclude /usr/lib*/debug/usr/lib*/security/pam_gdm.so-3.30.1-1.x86_64.debug
-#exclude /usr/lib*/debug/usr/libexec/gdm-disable-wayland-3.30.1-1.x86_64.debug
+%{_prefix}/lib/systemd/user/gnome-session@gnome-login.target.d/session.conf
 
 #--------------------------------------------------------------------
 %package -n %{libname}
