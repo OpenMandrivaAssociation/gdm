@@ -10,8 +10,8 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	42.0
-Release:	3
+Version:	43.0
+Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		http://www.gnome.org/projects/gdm/
