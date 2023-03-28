@@ -10,7 +10,7 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	43.0
+Version:	44.0
 Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
@@ -22,7 +22,7 @@ Source2:	gdm-password
 # git format-patch --start-number 100 3.1.2..mga-3.1.2-cherry-picks
 
 # It is possible that we will have to import several patches from Fedora and openSUSE. Just test it after build and see if needed. (pengin)
-Patch0302:	0302-Fix-gdm-pam.d-configs.patch
+#Patch0302:	0302-Fix-gdm-pam.d-configs.patch
 #Patch0303:	0303-Read-.xsetup-scripts.patch
 
 Provides:	dm
