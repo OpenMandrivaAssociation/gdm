@@ -11,13 +11,14 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	45.0.1
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
 Source0:	https://ftp.gnome.org/pub/GNOME/sources/gdm/%{url_ver}/%{name}-%{version}.tar.xz
 Source1:	gnome-enable-root-gui.desktop
 Source2:	gdm-password
+Source3:      gdm.sysusers
 
 Provides:	dm
 
@@ -96,7 +97,7 @@ into your system with the X Window System running and supports running
 several different X sessions on your local machine at the same time.
 
 %pre
-%_pre_useradd gdm %{_var}/lib/gdm /bin/false
+sysusers_create_compat %{SOURCE3}
 %_pre_groupadd xgrp gdm
 
 %preun
@@ -120,6 +121,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %files -f %{name}.lang
 %doc AUTHORS COPYING NEWS README.md
 %_sysconfdir/dbus-1/system.d/gdm.conf
+%{_sysusersdir}/%{name}.conf
 %{_bindir}/gdm-screenshot
 %{_bindir}/gdmflexiserver
 %{_sbindir}/gdm
@@ -249,6 +251,8 @@ rm -f %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 #ln -s gdm %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 
+# (angry p) Install sysusers needed for rpm 4.19
+install -p -m644 -D %{SOURCE3} %{buildroot}%{_sysusersdir}/%{name}.conf
 
 pushd %{buildroot}%{_sysconfdir}
 ln -s X11/gdm
