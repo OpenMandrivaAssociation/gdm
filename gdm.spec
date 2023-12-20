@@ -15,9 +15,9 @@ Release:	3
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
-Source0:	https://ftp.gnome.org/pub/GNOME/sources/gdm/%{url_ver}/%{name}-%{version}.tar.xz
-Source1:	gnome-enable-root-gui.desktop
-Source2:	gdm-password
+Source0:      https://ftp.gnome.org/pub/GNOME/sources/gdm/%{url_ver}/%{name}-%{version}.tar.xz
+Source1:      gnome-enable-root-gui.desktop
+Source2:      gdm-password
 Source3:      gdm.sysusers
 
 Provides:	dm
@@ -50,7 +50,7 @@ Obsoletes:	gdm-Xnest
 
 Obsoletes:	gdm-themes
 Conflicts:	gdm-220
-BuildRequires: pkgconfig(accountsservice) >= 0.6.12
+BuildRequires:       pkgconfig(accountsservice) >= 0.6.12
 BuildRequires:	pkgconfig(check) >= 0.9.4
 BuildRequires:	pkgconfig(dbus-glib-1) >= 0.74
 BuildRequires:	pkgconfig(fontconfig) >= 2.5.0
@@ -60,12 +60,12 @@ BuildRequires:	pkgconfig(gobject-2.0) >= 2.29.3
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-3.0) >= 2.91.1
-BuildRequires: pkgconfig(gudev-1.0)
+BuildRequires:       pkgconfig(gudev-1.0)
 BuildRequires:	pkgconfig(libcanberra-gtk3) >= 0.4
 BuildRequires:	pkgconfig(libxklavier) >= 4.0
 BuildRequires:	pkgconfig(nss) >= 3.11.1
 BuildRequires:	pkgconfig(libsystemd)
-BuildRequires: pkgconfig(systemd)
+BuildRequires:       pkgconfig(systemd)
 BuildRequires:	systemd-rpm-macros
 BuildRequires:	pkgconfig(ply-boot-client)
 BuildRequires:	pkgconfig(upower-glib) >= 0.9.0
@@ -74,8 +74,8 @@ BuildRequires:	pkgconfig(xau)
 BuildRequires:	pkgconfig(xdmcp)
 BuildRequires:	pkgconfig(xrandr)
 BuildRequires:	pkgconfig(libkeyutils)
-BuildRequires: pkgconfig(udev)
-BuildRequires: cmake
+BuildRequires:       pkgconfig(udev)
+BuildRequires:       cmake
 BuildRequires:	meson
 BuildRequires:	dconf
 BuildRequires:	pam-devel
@@ -97,7 +97,6 @@ into your system with the X Window System running and supports running
 several different X sessions on your local machine at the same time.
 
 %pre
-%sysusers_create_package %{name} %{SOURCE3}
 %_pre_groupadd xgrp gdm
 
 %preun
