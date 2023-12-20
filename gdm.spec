@@ -11,13 +11,14 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	45.0.1
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
-Source0:	https://ftp.gnome.org/pub/GNOME/sources/gdm/%{url_ver}/%{name}-%{version}.tar.xz
-Source1:	gnome-enable-root-gui.desktop
-Source2:	gdm-password
+Source0:      https://ftp.gnome.org/pub/GNOME/sources/gdm/%{url_ver}/%{name}-%{version}.tar.xz
+Source1:      gnome-enable-root-gui.desktop
+Source2:      gdm-password
+Source3:      gdm.sysusers
 
 Provides:	dm
 
@@ -49,7 +50,7 @@ Obsoletes:	gdm-Xnest
 
 Obsoletes:	gdm-themes
 Conflicts:	gdm-220
-BuildRequires: pkgconfig(accountsservice) >= 0.6.12
+BuildRequires:       pkgconfig(accountsservice) >= 0.6.12
 BuildRequires:	pkgconfig(check) >= 0.9.4
 BuildRequires:	pkgconfig(dbus-glib-1) >= 0.74
 BuildRequires:	pkgconfig(fontconfig) >= 2.5.0
@@ -59,12 +60,12 @@ BuildRequires:	pkgconfig(gobject-2.0) >= 2.29.3
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-3.0) >= 2.91.1
-BuildRequires: pkgconfig(gudev-1.0)
+BuildRequires:       pkgconfig(gudev-1.0)
 BuildRequires:	pkgconfig(libcanberra-gtk3) >= 0.4
 BuildRequires:	pkgconfig(libxklavier) >= 4.0
 BuildRequires:	pkgconfig(nss) >= 3.11.1
 BuildRequires:	pkgconfig(libsystemd)
-BuildRequires: pkgconfig(systemd)
+BuildRequires:       pkgconfig(systemd)
 BuildRequires:	systemd-rpm-macros
 BuildRequires:	pkgconfig(ply-boot-client)
 BuildRequires:	pkgconfig(upower-glib) >= 0.9.0
@@ -73,8 +74,8 @@ BuildRequires:	pkgconfig(xau)
 BuildRequires:	pkgconfig(xdmcp)
 BuildRequires:	pkgconfig(xrandr)
 BuildRequires:	pkgconfig(libkeyutils)
-BuildRequires: pkgconfig(udev)
-BuildRequires: cmake
+BuildRequires:       pkgconfig(udev)
+BuildRequires:       cmake
 BuildRequires:	meson
 BuildRequires:	dconf
 BuildRequires:	pam-devel
@@ -96,7 +97,6 @@ into your system with the X Window System running and supports running
 several different X sessions on your local machine at the same time.
 
 %pre
-%_pre_useradd gdm %{_var}/lib/gdm /bin/false
 %_pre_groupadd xgrp gdm
 
 %preun
@@ -120,6 +120,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %files -f %{name}.lang
 %doc AUTHORS COPYING NEWS README.md
 %_sysconfdir/dbus-1/system.d/gdm.conf
+%{_sysusersdir}/%{name}.conf
 %{_bindir}/gdm-screenshot
 %{_bindir}/gdmflexiserver
 %{_sbindir}/gdm
@@ -249,6 +250,8 @@ rm -f %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 #ln -s gdm %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/pam.d/gdm-password
 
+# (angry p) Install sysusers needed for rpm 4.19
+install -p -m644 -D %{SOURCE3} %{buildroot}%{_sysusersdir}/%{name}.conf
 
 pushd %{buildroot}%{_sysconfdir}
 ln -s X11/gdm
