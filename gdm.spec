@@ -97,7 +97,7 @@ into your system with the X Window System running and supports running
 several different X sessions on your local machine at the same time.
 
 %pre
-%sysusers_create_package %{SOURCE3}
+%sysusers_create_package %{name} %{SOURCE3}
 %_pre_groupadd xgrp gdm
 
 %preun
