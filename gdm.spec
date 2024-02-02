@@ -30,7 +30,7 @@ Requires:	sessreg
 #Requires:	usermode
 Requires:	cdialog
 Requires:	zenity-gtk
-Requires:	gnome-session-bin
+#Requires:	gnome-session-bin
 Requires:	gnome-settings-daemon
 Suggests:	gnome-power-manager
 Requires:	xinitrc >= 2.4.14
