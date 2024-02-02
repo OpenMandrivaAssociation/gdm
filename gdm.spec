@@ -11,7 +11,7 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	45.0.1
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
@@ -38,10 +38,10 @@ Requires:	dbus-x11
 Requires:	dbus-daemon
 Requires:	polkit-gnome
 Requires:	accountsservice
-Requires:	gnome-shell
+#Requires:	gnome-shell
 #Droped in upstream, use adwaita
 #Requires:	gnome-icon-theme-symbolic
-Requires:	gnome-shell
+#Requires:	gnome-shell
 Requires:	adwaita-icon-theme
 Requires:	x11-server-xwayland
 Requires:	xhost
