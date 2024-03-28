@@ -52,6 +52,7 @@ Obsoletes:	gdm-themes
 Conflicts:	gdm-220
 BuildRequires:       pkgconfig(accountsservice) >= 0.6.12
 BuildRequires:	pkgconfig(check) >= 0.9.4
+BuildRequires:       pkgconfig(dconf)
 BuildRequires:	pkgconfig(dbus-glib-1) >= 0.74
 BuildRequires:	pkgconfig(fontconfig) >= 2.5.0
 BuildRequires:	pkgconfig(gio-2.0) >= 2.29.3
@@ -61,6 +62,7 @@ BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-3.0) >= 2.91.1
 BuildRequires:       pkgconfig(gudev-1.0)
+BuildRequires:       pkgconfig(json-glib-1.0)
 BuildRequires:	pkgconfig(libcanberra-gtk3) >= 0.4
 BuildRequires:	pkgconfig(libxklavier) >= 4.0
 BuildRequires:	pkgconfig(nss) >= 3.11.1
