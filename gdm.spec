@@ -11,7 +11,7 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	46.2
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
@@ -91,6 +91,9 @@ BuildRequires:	gnome-common
 BuildRequires:	rpm-helper
 BuildRequires:	pkgconfig(xorg-server)
 Obsoletes:	gdm-user-switch-applet < 3.0.0
+
+%patchlist
+gdm-46.2-no-selinux-deps.patch
 
 %description
 Gdm (the GNOME Display Manager) is a highly configurable

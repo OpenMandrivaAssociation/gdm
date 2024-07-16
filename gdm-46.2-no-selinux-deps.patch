@@ -1,0 +1,71 @@
+diff -up gdm-46.2/data/pam-redhat/gdm-autologin.pam.1~ gdm-46.2/data/pam-redhat/gdm-autologin.pam
+--- gdm-46.2/data/pam-redhat/gdm-autologin.pam.1~	2024-07-17 00:18:08.576327637 +0200
++++ gdm-46.2/data/pam-redhat/gdm-autologin.pam	2024-07-17 00:18:36.672798774 +0200
+@@ -5,9 +5,9 @@ auth       sufficient  pam_permit.so
+ account    required    pam_nologin.so
+ account    include     system-auth
+ password   include     system-auth
+-session    required    pam_selinux.so close
++#session    required    pam_selinux.so close
+ session    required    pam_loginuid.so
+-session    required    pam_selinux.so open
++#session    required    pam_selinux.so open
+ session    optional    pam_keyinit.so force revoke
+ session    required    pam_namespace.so
+ session    include     system-auth
+diff -up gdm-46.2/data/pam-redhat/gdm-fingerprint.pam.1~ gdm-46.2/data/pam-redhat/gdm-fingerprint.pam
+--- gdm-46.2/data/pam-redhat/gdm-fingerprint.pam.1~	2024-07-17 00:18:08.576327637 +0200
++++ gdm-46.2/data/pam-redhat/gdm-fingerprint.pam	2024-07-17 00:19:20.097518563 +0200
+@@ -6,9 +6,9 @@ account     include       fingerprint-au
+ 
+ password    include       fingerprint-auth
+ 
+-session     required      pam_selinux.so close
++#session     required      pam_selinux.so close
+ session     required      pam_loginuid.so
+-session     required      pam_selinux.so open
++#session     required      pam_selinux.so open
+ session     optional      pam_keyinit.so force revoke
+ session     required      pam_namespace.so
+ session     include       fingerprint-auth
+diff -up gdm-46.2/data/pam-redhat/gdm-launch-environment.pam.1~ gdm-46.2/data/pam-redhat/gdm-launch-environment.pam
+--- gdm-46.2/data/pam-redhat/gdm-launch-environment.pam.1~	2024-05-29 17:50:27.000000000 +0200
++++ gdm-46.2/data/pam-redhat/gdm-launch-environment.pam	2024-07-17 00:18:08.576327637 +0200
+@@ -4,6 +4,7 @@ auth       required    pam_permit.so
+ auth       include     postlogin
+ account    required    pam_permit.so
+ password   required    pam_permit.so
++session    optional    pam_console.so
+ session    optional    pam_keyinit.so force revoke
+ session    include     system-auth
+ session    include     postlogin
+diff -up gdm-46.2/data/pam-redhat/gdm-password.pam.1~ gdm-46.2/data/pam-redhat/gdm-password.pam
+--- gdm-46.2/data/pam-redhat/gdm-password.pam.1~	2024-07-17 00:18:08.576327637 +0200
++++ gdm-46.2/data/pam-redhat/gdm-password.pam	2024-07-17 00:19:40.885859749 +0200
+@@ -9,9 +9,9 @@ account     include       password-auth
+ password    substack       password-auth
+ -password   optional       pam_gnome_keyring.so use_authtok
+ 
+-session     required      pam_selinux.so close
++#session     required      pam_selinux.so close
+ session     required      pam_loginuid.so
+-session     required      pam_selinux.so open
++#session     required      pam_selinux.so open
+ session     optional      pam_keyinit.so force revoke
+ session     required      pam_namespace.so
+ session     include       password-auth
+diff -up gdm-46.2/data/pam-redhat/gdm-smartcard.pam.1~ gdm-46.2/data/pam-redhat/gdm-smartcard.pam
+--- gdm-46.2/data/pam-redhat/gdm-smartcard.pam.1~	2024-07-17 00:18:08.576327637 +0200
++++ gdm-46.2/data/pam-redhat/gdm-smartcard.pam	2024-07-17 00:19:51.110026784 +0200
+@@ -6,9 +6,9 @@ account     include       smartcard-auth
+ 
+ password    include       smartcard-auth
+ 
+-session     required      pam_selinux.so close
++#session     required      pam_selinux.so close
+ session     required      pam_loginuid.so
+-session     required      pam_selinux.so open
++#session     required      pam_selinux.so open
+ session     optional      pam_keyinit.so force revoke
+ session     required      pam_namespace.so
+ session     include       smartcard-auth
