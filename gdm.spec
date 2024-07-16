@@ -11,7 +11,7 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	46.2
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
@@ -35,7 +35,7 @@ Requires:	gnome-settings-daemon
 Suggests:	gnome-power-manager
 Requires:	xinitrc >= 2.4.14
 Requires:	dbus-x11
-Requires:	dbus-daemon
+Requires:	(dbus-broker or dbus-daemon)
 Requires:	polkit-gnome
 Requires:	accountsservice
 #Requires:	gnome-shell
