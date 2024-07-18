@@ -11,7 +11,7 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	46.2
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
@@ -35,7 +35,13 @@ Requires:	gnome-settings-daemon
 Suggests:	gnome-power-manager
 Requires:	xinitrc >= 2.4.14
 Requires:	dbus-x11
-Requires:	(dbus-broker or dbus-daemon)
+# While the rest of the world has moved on to dbus-broker, gdm
+# still hardcodes dbus-daemon calls and can't live without it.
+# Don't update this dependency unless and until gdm-x11-session.c
+# and gdm-wayland-session.c stop exec-ing dbus-daemon.
+# https://gitlab.gnome.org/GNOME/gdm/-/blob/main/daemon/gdm-x-session.c?ref_type=heads#L463
+# https://gitlab.gnome.org/GNOME/gdm/-/blob/main/daemon/gdm-wayland-session.c?ref_type=heads#L139
+Requires:	dbus-daemon
 Requires:	polkit-gnome
 Requires:	accountsservice
 #Requires:	gnome-shell
