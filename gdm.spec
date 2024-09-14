@@ -132,7 +132,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %doc AUTHORS COPYING NEWS README.md
 %_sysconfdir/dbus-1/system.d/gdm.conf
 %{_sysusersdir}/%{name}.conf
-%{_bindir}/gdm-screenshot
 %{_bindir}/gdmflexiserver
 %{_bindir}/gdm-config
 %{_sbindir}/gdm
