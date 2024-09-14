@@ -10,8 +10,8 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	46.2
-Release:	5
+Version:	47.rc
+Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
@@ -22,81 +22,81 @@ Source3:      gdm.sysusers
 
 Provides:	dm
 
-Requires(pre):		rpm-helper
-Requires(postun):	rpm-helper
-Requires(post):		dconf
-Requires:	pam
-Requires:	sessreg
-#Requires:	usermode
-Requires:	cdialog
-Requires:	zenity-gtk
-#Requires:	gnome-session-bin
-Requires:	gnome-settings-daemon
-Suggests:	gnome-power-manager
-Requires:	xinitrc >= 2.4.14
-Requires:	dbus-x11
+Requires(pre): rpm-helper
+Requires(postun): rpm-helper
+Requires(post): dconf
+Requires: pam
+Requires: sessreg
+#Requires: usermode
+Requires: cdialog
+Requires: zenity-gtk
+#Requires: gnome-session-bin
+Requires: gnome-settings-daemon
+Suggests: gnome-power-manager
+Requires: xinitrc >= 2.4.14
+Requires: dbus-x11
 # While the rest of the world has moved on to dbus-broker, gdm
 # still hardcodes dbus-daemon calls and can't live without it.
 # Don't update this dependency unless and until gdm-x11-session.c
 # and gdm-wayland-session.c stop exec-ing dbus-daemon.
 # https://gitlab.gnome.org/GNOME/gdm/-/blob/main/daemon/gdm-x-session.c?ref_type=heads#L463
 # https://gitlab.gnome.org/GNOME/gdm/-/blob/main/daemon/gdm-wayland-session.c?ref_type=heads#L139
-Requires:	dbus-daemon
-Requires:	polkit-gnome
-Requires:	accountsservice
-#Requires:	gnome-shell
+Requires: dbus-daemon
+Requires: polkit-gnome
+Requires: accountsservice
+#Requires: gnome-shell
 #Droped in upstream, use adwaita
-#Requires:	gnome-icon-theme-symbolic
-#Requires:	gnome-shell
-Requires:	adwaita-icon-theme
-Requires:	x11-server-xwayland
-Requires:	xhost
-Provides:	gdm-Xnest
-Obsoletes:	gdm-Xnest
+#Requires: gnome-icon-theme-symbolic
+#Requires: gnome-shell
+Requires: adwaita-icon-theme
+Requires: x11-server-xwayland
+Requires: xhost
+Provides: gdm-Xnest
+Obsoletes: gdm-Xnest
 
-Obsoletes:	gdm-themes
-Conflicts:	gdm-220
-BuildRequires:       pkgconfig(accountsservice) >= 0.6.12
-BuildRequires:	pkgconfig(check) >= 0.9.4
-BuildRequires:       pkgconfig(dconf)
-BuildRequires:	pkgconfig(dbus-glib-1) >= 0.74
-BuildRequires:	pkgconfig(fontconfig) >= 2.5.0
-BuildRequires:	pkgconfig(gio-2.0) >= 2.29.3
-BuildRequires:	pkgconfig(gobject-2.0) >= 2.29.3
+Obsoletes: gdm-themes
+Conflicts: gdm-220
+BuildRequires: pkgconfig(accountsservice) >= 0.6.12
+BuildRequires: pkgconfig(check) >= 0.9.4
+BuildRequires: pkgconfig(dconf)
+BuildRequires: pkgconfig(dbus-glib-1) >= 0.74
+BuildRequires: pkgconfig(fontconfig) >= 2.5.0
+BuildRequires: pkgconfig(gio-2.0) >= 2.29.3
+BuildRequires: pkgconfig(gobject-2.0) >= 2.29.3
 #gobject-introspection-1.0 provided by lib64girepository-devel
-BuildRequires:	pkgconfig(gobject-introspection-1.0)
-BuildRequires:	pkgconfig(gthread-2.0)
-BuildRequires:	pkgconfig(gtk+-3.0) >= 2.91.1
-BuildRequires:       pkgconfig(gudev-1.0)
-BuildRequires:       pkgconfig(json-glib-1.0)
-BuildRequires:	pkgconfig(libcanberra-gtk3) >= 0.4
-BuildRequires:	pkgconfig(libxklavier) >= 4.0
-BuildRequires:	pkgconfig(nss) >= 3.11.1
-BuildRequires:	pkgconfig(libsystemd)
-BuildRequires:       pkgconfig(systemd)
-BuildRequires:	systemd-rpm-macros
-BuildRequires:	pkgconfig(ply-boot-client)
-BuildRequires:	pkgconfig(upower-glib) >= 0.9.0
-BuildRequires:	pkgconfig(x11)
-BuildRequires:	pkgconfig(xau)
-BuildRequires:	pkgconfig(xdmcp)
-BuildRequires:	pkgconfig(xrandr)
-BuildRequires:	pkgconfig(libkeyutils)
-BuildRequires:       pkgconfig(udev)
-BuildRequires:       cmake
-BuildRequires:	meson
-BuildRequires:	dconf
-BuildRequires:	pam-devel
-BuildRequires:	libwrap-devel
-BuildRequires:	audit-devel
-BuildRequires:	intltool >= 0.40.0
-BuildRequires:	gettext-devel
-BuildRequires:	yelp-tools
-BuildRequires:	itstool
-BuildRequires:	gnome-common
-BuildRequires:	rpm-helper
-BuildRequires:	pkgconfig(xorg-server)
-Obsoletes:	gdm-user-switch-applet < 3.0.0
+BuildRequires: pkgconfig(gobject-introspection-1.0)
+BuildRequires: pkgconfig(gthread-2.0)
+BuildRequires: pkgconfig(gtk+-3.0) >= 2.91.1
+BuildRequires: pkgconfig(gudev-1.0)
+BuildRequires: pkgconfig(json-glib-1.0)
+BuildRequires: pkgconfig(libcanberra-gtk3) >= 0.4
+BuildRequires: pkgconfig(libxklavier) >= 4.0
+BuildRequires: pkgconfig(nss) >= 3.11.1
+BuildRequires: pkgconfig(libsystemd)
+BuildRequires: pkgconfig(systemd)
+BuildRequires: systemd-rpm-macros
+BuildRequires: pkgconfig(ply-boot-client)
+BuildRequires: pkgconfig(upower-glib) >= 0.9.0
+BuildRequires: pkgconfig(x11)
+BuildRequires: pkgconfig(xau)
+BuildRequires: pkgconfig(xdmcp)
+BuildRequires: pkgconfig(xrandr)
+BuildRequires: pkgconfig(libkeyutils)
+BuildRequires: pkgconfig(udev)
+BuildRequires: cmake
+BuildRequires: meson
+BuildRequires: dconf
+BuildRequires: pam-devel
+BuildRequires: libwrap-devel
+BuildRequires: audit-devel
+BuildRequires: intltool >= 0.40.0
+BuildRequires: gettext-devel
+BuildRequires: yelp-tools
+BuildRequires: itstool
+BuildRequires: gnome-common
+BuildRequires: rpm-helper
+BuildRequires: pkgconfig(xorg-server)
+Obsoletes: gdm-user-switch-applet < 3.0.0
 
 %patchlist
 gdm-46.2-no-selinux-deps.patch
