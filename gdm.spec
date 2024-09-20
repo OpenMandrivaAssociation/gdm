@@ -11,12 +11,12 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	47.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
 Source0:      https://ftp.gnome.org/pub/GNOME/sources/gdm/%{url_ver}/%{name}-%{version}.tar.xz
-Source1:      gnome-enable-root-gui.desktop
+#Source1:      gnome-enable-root-gui.desktop
 Source2:      gdm-password
 Source3:      gdm.sysusers
 
@@ -168,7 +168,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 # until we fully redo any prefdm stuff and have units for all DMs
 # we support.
 %{_unitdir}/gdm.service
-%{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
+#{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
 %{_prefix}/lib/systemd/user/gnome-session@gnome-login.target.d/session.conf
 
 #--------------------------------------------------------------------
@@ -276,7 +276,7 @@ ln -s ../Xsession %{buildroot}%{_sysconfdir}/X11/gdm/Xsession
 mkdir -p %{buildroot}%{_localstatedir}/lib/gdm/.local/share/xorg
 
 # (martinw) enable root apps (e.g. MCC) to run in Wayland
-install -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
+#install -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
 
 #echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm
 echo "auth       optional pam_group.so" >> %{buildroot}%{_sysconfdir}/pam.d/gdm-autologin
