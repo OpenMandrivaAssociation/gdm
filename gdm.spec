@@ -11,7 +11,7 @@
 Summary:	The GNOME Display Manager
 Name:		gdm
 Version:	47.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
@@ -51,6 +51,14 @@ Requires: accountsservice
 Requires: adwaita-icon-theme
 Requires: x11-server-xwayland
 Requires: xhost
+# As of 47.0: Sad, but true: gnome filth has become so dirty that even the display
+# manager requires half the broken desktop.
+# The greeter launches its UI by calling
+# /usr/libexec/gdm-x-session "dbus-run-session -- gnome-session --autostart /usr/share/gdm/greeter/autostart"
+# Resulting in a permanent black screen if gnome-session isn't there.
+# gnome-session then calls the piece of bloat that is gnome-shell.
+Requires: gnome-session
+Requires: gnome-shell
 Provides: gdm-Xnest
 Obsoletes: gdm-Xnest
 
