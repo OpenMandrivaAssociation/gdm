@@ -166,6 +166,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
 %{_datadir}/gnome-session/sessions/gnome-login.session
+%{_datadir}/polkit-1/rules.d/20-gdm.rules
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local
