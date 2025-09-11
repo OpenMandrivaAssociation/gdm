@@ -143,7 +143,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_bindir}/gdmflexiserver
 %{_bindir}/gdm-config
 %{_sbindir}/gdm
-%{_prefix}/lib/udev/rules.d/61-gdm.rules
+#{_prefix}/lib/udev/rules.d/61-gdm.rules
 %dir %{_sysconfdir}/X11/gdm
 %{_sysconfdir}/gdm
 #config(noreplace) %{_sysconfdir}/pam.d/gdm
@@ -178,7 +178,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 # we support.
 %{_unitdir}/gdm.service
 %{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
-%{_prefix}/lib/systemd/user/gnome-session@gnome-login.target.d/session.conf
+#{_prefix}/lib/systemd/user/gnome-session@gnome-login.target.d/session.conf
 
 #--------------------------------------------------------------------
 %package -n %{libname}
