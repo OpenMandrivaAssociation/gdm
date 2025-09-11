@@ -10,7 +10,7 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	48.0
+Version:	49.rc
 Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
@@ -242,7 +242,8 @@ cp data/Init.in data/Default.in
        -Ddefault-path=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/usr/games \
        -Dprofiling=true \
        -Dplymouth=enabled \
-       -Dselinux=disabled
+       -Dselinux=disabled \
+       -Dx11-support=true
 
 %meson_build
 
