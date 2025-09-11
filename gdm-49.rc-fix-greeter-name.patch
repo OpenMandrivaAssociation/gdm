@@ -1,0 +1,12 @@
+diff -uraN gdm-49.rc/daemon/gdm-launch-environment.c omv-gdm-49.rc/daemon/gdm-launch-environment.c
+--- gdm-49.rc/daemon/gdm-launch-environment.c	2025-08-29 22:06:43.000000000 +0200
++++ omv-gdm-49.rc/daemon/gdm-launch-environment.c	2025-09-12 01:50:31.490799577 +0200
+@@ -49,7 +49,7 @@
+ #include "gdm-settings-direct.h"
+ #include "gdm-settings-keys.h"
+ 
+-#define GDM_GREETER_USERNAME "gdm-greeter"
++#define GDM_GREETER_USERNAME "gdm"
+ #define GDM_GREETER_DISP_NAME "GDM Greeter"
+ #define GDM_SESSION_MODE "gdm"
+ 
