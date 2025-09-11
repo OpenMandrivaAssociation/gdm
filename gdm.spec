@@ -108,6 +108,7 @@ Obsoletes: gdm-user-switch-applet < 3.0.0
 
 %patchlist
 gdm-46.2-no-selinux-deps.patch
+gdm-49.rc-fix-greeter-name.patch
 
 %description
 Gdm (the GNOME Display Manager) is a highly configurable
@@ -178,7 +179,8 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 # we support.
 %{_unitdir}/gdm.service
 %{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
-#{_prefix}/lib/systemd/user/gnome-session@gnome-login.target.d/session.conf
+%{_prefix}/lib/systemd/user/gnome-session@gnome-login.target.d/gnome-login.session.conf
+
 
 #--------------------------------------------------------------------
 %package -n %{libname}
