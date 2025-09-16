@@ -10,7 +10,7 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	49.rc
+Version:	49.0.1
 Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
