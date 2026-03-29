@@ -10,7 +10,7 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	49.2
+Version:	50.0
 Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
@@ -108,7 +108,7 @@ Obsoletes: gdm-user-switch-applet < 3.0.0
 
 %patchlist
 gdm-46.2-no-selinux-deps.patch
-gdm-49.rc-fix-greeter-name.patch
+#gdm-49.rc-fix-greeter-name.patch
 
 %description
 Gdm (the GNOME Display Manager) is a highly configurable
@@ -141,7 +141,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %doc AUTHORS COPYING NEWS README.md
 %_sysconfdir/dbus-1/system.d/gdm.conf
 %{_sysusersdir}/%{name}.conf
-%{_bindir}/gdmflexiserver
 %{_bindir}/gdm-config
 %{_sbindir}/gdm
 #{_prefix}/lib/udev/rules.d/61-gdm.rules
@@ -155,19 +154,16 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
 %config(noreplace) %{_sysconfdir}/X11/gdm/Xsession
+%config %{_sysconfdir}/pam.d/gdm-switchable-auth
 %dir %{_sysconfdir}/X11/dm
 %dir %{_sysconfdir}/X11/dm/Sessions
-%config(noreplace) %{_sysconfdir}/X11/gdm/PreSession
-%config(noreplace) %{_sysconfdir}/X11/gdm/PostSession
-%config(noreplace) %{_sysconfdir}/X11/gdm/PostLogin
-%config(noreplace) %{_sysconfdir}/X11/gdm/Init
 %{_libdir}/security/pam_gdm.so
-
 %{_libexecdir}/gdm-*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
 %{_datadir}/gnome-session/sessions/gnome-login.session
 %{_datadir}/polkit-1/rules.d/20-gdm.rules
+%{_datadir}/polkit-1/actions/org.gnome.displaymanager.policy
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
 %attr(700,gdm,gdm) %dir %{_localstatedir}/lib/gdm/.local
@@ -180,6 +176,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_unitdir}/gdm.service
 %{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
 %{_prefix}/lib/systemd/user/gnome-session@gnome-login.target.d/gnome-login.session.conf
+%{_prefix}/lib/systemd/system/gnome-headless-session@.service
 
 
 #--------------------------------------------------------------------
@@ -233,14 +230,13 @@ developing applications that use %{name}.
 
 %prep
 %autosetup -p1
-cp data/Init.in data/Default.in
+#cp data/Init.in data/Default.in
 
 %build
 %meson -Dpam-prefix=%{_sysconfdir} \
        --sysconfdir=%{_sysconfdir}/X11 \
        -Ddbus-sys=%{_sysconfdir}/dbus-1/system.d \
        -Drun-dir=/run/gdm \
-       -Dudev-dir=%{_udevrulesdir} \
        -Ddefault-path=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/usr/games \
        -Dprofiling=true \
        -Dplymouth=enabled \
