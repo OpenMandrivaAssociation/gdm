@@ -232,7 +232,7 @@ developing applications that use %{name}.
 
 %prep
 %autosetup -p1
-cp data/Init.in data/Default.in
+#cp data/Init.in data/Default.in
 
 %build
 %meson -Dpam-prefix=%{_sysconfdir} \
