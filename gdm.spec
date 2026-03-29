@@ -176,6 +176,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_unitdir}/gdm.service
 %{_sysconfdir}/xdg/autostart/gnome-enable-root-gui.desktop
 %{_prefix}/lib/systemd/user/gnome-session@gnome-login.target.d/gnome-login.session.conf
+%{_prefix}/lib/systemd/system/gnome-headless-session@.service
 
 
 #--------------------------------------------------------------------
