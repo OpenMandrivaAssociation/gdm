@@ -155,7 +155,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
 %config(noreplace) %{_sysconfdir}/X11/gdm/Xsession
 %config %{_sysconfdir}/pam.d/gdm-switchable-auth
-%config %{_sysconfdir}/pam.d/gdm-switchable-auth
 %dir %{_sysconfdir}/X11/dm
 %dir %{_sysconfdir}/X11/dm/Sessions
 %{_libdir}/security/pam_gdm.so
@@ -164,8 +163,6 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
 %{_datadir}/gnome-session/sessions/gnome-login.session
 %{_datadir}/polkit-1/rules.d/20-gdm.rules
-%dir %{_datadir}/gdm/greeter/wayland-sessions
-%{_datadir}/gdm/greeter/wayland-sessions/*
 %{_datadir}/polkit-1/actions/org.gnome.displaymanager.policy
 %dir %{_datadir}/hosts
 %attr(1770, gdm, gdm) %dir %{_localstatedir}/lib/gdm
