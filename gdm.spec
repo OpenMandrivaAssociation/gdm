@@ -108,7 +108,7 @@ Obsoletes: gdm-user-switch-applet < 3.0.0
 
 %patchlist
 gdm-46.2-no-selinux-deps.patch
-gdm-49.rc-fix-greeter-name.patch
+#gdm-49.rc-fix-greeter-name.patch
 
 %description
 Gdm (the GNOME Display Manager) is a highly configurable
