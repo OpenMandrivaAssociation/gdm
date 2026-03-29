@@ -239,7 +239,6 @@ developing applications that use %{name}.
        --sysconfdir=%{_sysconfdir}/X11 \
        -Ddbus-sys=%{_sysconfdir}/dbus-1/system.d \
        -Drun-dir=/run/gdm \
-       -Dudev-dir=%{_udevrulesdir} \
        -Ddefault-path=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/usr/games \
        -Dprofiling=true \
        -Dplymouth=enabled \
