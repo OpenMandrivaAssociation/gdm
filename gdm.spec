@@ -139,17 +139,17 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 #config(noreplace) %{_sysconfdir}/pam.d/gdm
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-autologin
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-password
-%config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint
-%config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
-%config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
-%config %{_sysconfdir}/pam.d/gdm-switchable-auth
+#config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint
+#config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
+#config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
+#config %{_sysconfdir}/pam.d/gdm-switchable-auth
 
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
 %config(noreplace) %{_sysconfdir}/X11/gdm/Xsession
 
 %dir %{_sysconfdir}/X11/dm
 %dir %{_sysconfdir}/X11/dm/Sessions
-%{_libdir}/security/pam_gdm.so
+#{_libdir}/security/pam_gdm.so
 %{_libexecdir}/gdm-*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
