@@ -139,10 +139,14 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 #config(noreplace) %{_sysconfdir}/pam.d/gdm
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-autologin
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-password
-#config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint
-#config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
-#config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
-#config %{_sysconfdir}/pam.d/gdm-switchable-auth
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint-auth-substack
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-password-auth-substack
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard-auth-substack
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-switchable-auth
+%config(noreplace) %{_sysconfdir}//pam.d/gdm-switchable-auth-substack
 
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
 %config(noreplace) %{_sysconfdir}/X11/gdm/Xsession
@@ -228,6 +232,7 @@ developing applications that use %{name}.
 %meson -Dpam-prefix=%{_sysconfdir} \
        -Dpam-services-dir=%{_sysconfdir}/pam.d \
        --sysconfdir=%{_sysconfdir}/X11 \
+       -Ddefault-pam-config=redhat \
        -Ddbus-sys=%{_sysconfdir}/dbus-1/system.d \
        -Drun-dir=/run/gdm \
        -Ddefault-path=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/usr/games \
