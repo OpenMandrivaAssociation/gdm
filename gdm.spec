@@ -153,7 +153,7 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 
 %dir %{_sysconfdir}/X11/dm
 %dir %{_sysconfdir}/X11/dm/Sessions
-#{_libdir}/security/pam_gdm.so
+%{_libdir}/security/pam_gdm.so
 %{_libexecdir}/gdm-*
 %{_datadir}/gdm
 %{_datadir}/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
