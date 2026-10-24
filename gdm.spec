@@ -226,9 +226,9 @@ developing applications that use %{name}.
 
 %build
 %meson -Dpam-prefix=%{_sysconfdir} \
+       -Dpam-services-dir=%{_sysconfdir}/pam.d \
        --sysconfdir=%{_sysconfdir}/X11 \
        -Ddbus-sys=%{_sysconfdir}/dbus-1/system.d \
-       -Dpam-prefix=%{_sysconfdir} \
        -Drun-dir=/run/gdm \
        -Ddefault-path=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/usr/games \
        -Dprofiling=true \
