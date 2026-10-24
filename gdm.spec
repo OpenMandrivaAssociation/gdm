@@ -232,7 +232,7 @@ developing applications that use %{name}.
 %meson -Dpam-prefix=%{_sysconfdir} \
        -Dpam-services-dir=%{_sysconfdir}/pam.d \
        --sysconfdir=%{_sysconfdir}/X11 \
-       -Ddefault-pam-config=redhat \
+       -Dpam-mod-dir=%{_libdir}/security \
        -Ddbus-sys=%{_sysconfdir}/dbus-1/system.d \
        -Drun-dir=/run/gdm \
        -Ddefault-path=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/usr/games \
