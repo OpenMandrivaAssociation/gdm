@@ -39,21 +39,6 @@ diff -up gdm-46.2/data/pam-redhat/gdm-launch-environment.pam.1~ gdm-46.2/data/pa
  session    optional    pam_keyinit.so force revoke
  session    include     system-auth
  session    include     postlogin
-diff -up gdm-46.2/data/pam-redhat/gdm-password.pam.1~ gdm-46.2/data/pam-redhat/gdm-password.pam
---- gdm-46.2/data/pam-redhat/gdm-password.pam.1~	2024-07-17 00:18:08.576327637 +0200
-+++ gdm-46.2/data/pam-redhat/gdm-password.pam	2024-07-17 00:19:40.885859749 +0200
-@@ -9,9 +9,9 @@ account     include       password-auth
- password    substack       password-auth
- -password   optional       pam_gnome_keyring.so use_authtok
- 
--session     required      pam_selinux.so close
-+#session     required      pam_selinux.so close
- session     required      pam_loginuid.so
--session     required      pam_selinux.so open
-+#session     required      pam_selinux.so open
- session     optional      pam_keyinit.so force revoke
- session     required      pam_namespace.so
- session     include       password-auth
 diff -up gdm-46.2/data/pam-redhat/gdm-smartcard.pam.1~ gdm-46.2/data/pam-redhat/gdm-smartcard.pam
 --- gdm-46.2/data/pam-redhat/gdm-smartcard.pam.1~	2024-07-17 00:18:08.576327637 +0200
 +++ gdm-46.2/data/pam-redhat/gdm-smartcard.pam	2024-07-17 00:19:51.110026784 +0200

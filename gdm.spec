@@ -10,8 +10,8 @@
 
 Summary:	The GNOME Display Manager
 Name:		gdm
-Version:	50.3
-Release:	3
+Version:	51.1.1
+Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gdm/
@@ -44,19 +44,10 @@ Requires: dbus-x11
 Requires: dbus-daemon
 Requires: polkit-gnome
 Requires: accountsservice
-#Requires: gnome-shell
-#Droped in upstream, use adwaita
-#Requires: gnome-icon-theme-symbolic
-#Requires: gnome-shell
 Requires: adwaita-icon-theme
 Requires: x11-server-xwayland
 Requires: xhost
-# As of 47.0: Sad, but true: gnome filth has become so dirty that even the display
-# manager requires half the broken desktop.
-# The greeter launches its UI by calling
-# /usr/libexec/gdm-x-session "dbus-run-session -- gnome-session --autostart /usr/share/gdm/greeter/autostart"
-# Resulting in a permanent black screen if gnome-session isn't there.
-# gnome-session then calls the piece of bloat that is gnome-shell.
+# required
 Requires: gnome-session
 Requires: gnome-shell
 Provides: gdm-Xnest
@@ -71,7 +62,6 @@ BuildRequires: pkgconfig(dbus-glib-1) >= 0.74
 BuildRequires: pkgconfig(fontconfig) >= 2.5.0
 BuildRequires: pkgconfig(gio-2.0) >= 2.29.3
 BuildRequires: pkgconfig(gobject-2.0) >= 2.29.3
-#gobject-introspection-1.0 provided by lib64girepository-devel
 BuildRequires: pkgconfig(gobject-introspection-1.0)
 BuildRequires: pkgconfig(gthread-2.0)
 BuildRequires: pkgconfig(gtk+-3.0) >= 2.91.1
@@ -148,13 +138,19 @@ if [ -x /usr/sbin/chksession ]; then /usr/sbin/chksession -g || true; fi
 %{_sysconfdir}/gdm
 #config(noreplace) %{_sysconfdir}/pam.d/gdm
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-autologin
-%config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-password
-%config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-fingerprint-auth-substack
 %config(noreplace) %{_sysconfdir}/pam.d/gdm-launch-environment
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-password-auth-substack
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-smartcard-auth-substack
+%config(noreplace) %{_sysconfdir}/pam.d/gdm-switchable-auth
+%config(noreplace) %{_sysconfdir}//pam.d/gdm-switchable-auth-substack
+
 %config(noreplace) %{_sysconfdir}/X11/gdm/custom.conf
 %config(noreplace) %{_sysconfdir}/X11/gdm/Xsession
-%config %{_sysconfdir}/pam.d/gdm-switchable-auth
+
 %dir %{_sysconfdir}/X11/dm
 %dir %{_sysconfdir}/X11/dm/Sessions
 %{_libdir}/security/pam_gdm.so
@@ -234,7 +230,9 @@ developing applications that use %{name}.
 
 %build
 %meson -Dpam-prefix=%{_sysconfdir} \
+       -Dpam-services-dir=%{_sysconfdir}/pam.d \
        --sysconfdir=%{_sysconfdir}/X11 \
+       -Dpam-mod-dir=%{_libdir}/security \
        -Ddbus-sys=%{_sysconfdir}/dbus-1/system.d \
        -Drun-dir=/run/gdm \
        -Ddefault-path=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/usr/games \
